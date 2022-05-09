@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block subtitle %}
+    <strong>메뉴 1</strong>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <form action="/menu1" method="post">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><label for="index">텍스트</label></td>
+                        <td><input type="text" class="form-control" id="index" name="text" placeholder="텍스트 예시"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="review">리뷰</label></td>
+                        <td><textarea name="review" id="review" cols="80" rows="5">리뷰 데이터 예시</textarea></td>
+                    </tr>
+                    <tr>
+                        <td>언어 선택</td>
+                        <td style="text-align: center;"> 
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="lang" value="en" checked>영어
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="lang" value="jp">일어
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="lang" value="cn">중국어
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="lang" value="fr">프랑스어
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="lang" value="es">스페인어
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button type="submit" class="btn btn-primary mr-2">실행</button>
+                            <button type="reset" class="btn btn-secondary">취소</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="col-1"></div>
+    </div>
+{% endblock %}

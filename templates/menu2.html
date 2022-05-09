@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block subtitle %}
+    <strong>메뉴 2</strong> - {{ now }}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.title }}</td>
+                            <td>{{ item.content }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            <img src="{{url_for('static', filename='img/menu2.png', q=mtime)}}"
+                                width="400" alt="차원축소 이미지">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            <button class="btn btn-primary" 
+                                    onclick="location.href='/menu2'">재실행</button>
+                        </td>
+                    </tr>
+                </tbody>       
+            </table>
+        </div>
+        <div class="col-1"></div>
+    </div>
+{% endblock %}

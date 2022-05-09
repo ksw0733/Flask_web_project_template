@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block subtitle %}
+    <strong>메뉴 1</strong> - 결과
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <table class="table">
+                <tr>
+                    <td>텍스트</td>
+                    <td>{{text}}</td>
+                </tr>
+                <tr>
+                    <td>리뷰</td>
+                    <td>{{review | safe()}}</td>
+                </tr>
+                <tr>
+                    <td>언어</td>
+                    <td>{{lang}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button class="btn btn-primary" 
+                                onclick="location.href='/menu1'">재실행</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-1"></div>
+    </div>
+{% endblock %}
