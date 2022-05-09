@@ -1,5 +1,7 @@
 # ckiekim add
 exercise.ipynb
+model/
+upload/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

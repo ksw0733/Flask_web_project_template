@@ -14,9 +14,6 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     menu = {'ho':1, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0}
-    client_addr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    print(f'Connected to {client_addr}')
-
     return render_template('index.html', menu=menu)
 
 @app.route('/menu1', methods=['GET', 'POST'])
@@ -105,13 +102,12 @@ def cluster():
         X_scaled = StandardScaler().fit_transform(df_csv.iloc[:, :-1])
 
         # 차원 축소(PCA)
-        pca = PCA(n_components=2)
-        pca_array = pca.fit_transform(X_scaled)
+        pca_array = PCA(n_components=2).fit_transform(X_scaled)
         df = pd.DataFrame(pca_array, columns=['pca_x', 'pca_y'])
         df['target'] = df_csv.iloc[:, -1].values
 
         # K-Means Clustering
-        kmeans = KMeans(n_clusters=k_number, init='k-means++', max_iter=300, random_state=2021)
+        kmeans = KMeans(n_clusters=k_number, init='k-means++', max_iter=300, random_state=2022)
         kmeans.fit(X_scaled)
         df['cluster'] = kmeans.labels_
 
