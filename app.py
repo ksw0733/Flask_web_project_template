@@ -3,6 +3,7 @@ from flask import current_app
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+from bp_modue.module import module_bp
 from datetime import datetime
 import os, joblib
 import numpy as np
@@ -10,6 +11,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 
 app = Flask(__name__)
+app.register_blueprint(module_bp, url_prefix='/module')
 
 @app.route('/')
 def index():
