@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
 
 module_bp = Blueprint('module_bp', __name__)
 menu = {'ho':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0}
@@ -9,7 +9,7 @@ def sub1():
 
 @module_bp.route('/sub2')
 def sub2():
-    return render_template('module/sub2.html', menu=menu)
+    return redirect('/')
 
 @module_bp.route('/sub3')
 def sub3():
