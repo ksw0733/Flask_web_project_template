@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block additional_head %}
+    <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+{% endblock %}
+{% block subtitle %}
+    <strong>CKEditor 사용 예</strong><small> - 쓰기</small>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <form action="/module/write" method="post">
+            <table class="table table-borderless">
+                <tr>
+                    <td><label for="title" class="col-form-label">제목</label></td>
+                    <td><input type="text" name="title" id="title" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><label for="content" class="col-form-label">내용</label></td>
+                    <td><textarea class="form-control" name="content" id="content" rows="10"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <input class="btn btn-primary" type="submit" value="제출">
+                        <input class="btn btn-secondary" type="reset" value="취소">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock %}
+{% block additional_body %}
+    <script>
+        CKEDITOR.replace('content', {
+            filebrowserImageUploadUrl: '/module/ckupload',
+            filebrowserUploadMethod: 'form',
+            height:400, width:800,
+        });
+    </script>    
+{% endblock %}
