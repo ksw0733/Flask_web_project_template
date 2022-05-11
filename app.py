@@ -9,6 +9,8 @@ import os, joblib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
+import warnings
+warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 app.register_blueprint(module_bp, url_prefix='/module')
