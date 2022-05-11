@@ -1,3 +1,4 @@
+from genericpath import exists
 from flask import Flask, render_template, request
 from flask import current_app
 from sklearn.preprocessing import StandardScaler
@@ -46,6 +47,8 @@ def menu2():
     Y = np.random.rand(100)
     plt.figure()
     plt.scatter(X, Y)
+    if not os.path.exists(os.path.join(current_app.root_path, 'static/img')):
+        os.makedirs(os.path.join(current_app.root_path, 'static/img'))
     img_file = os.path.join(current_app.root_path, 'static/img/menu2.png')
     plt.savefig(img_file)
     mtime = int(os.stat(img_file).st_mtime)
@@ -93,6 +96,8 @@ def cluster():
     else:
         k_number = int(request.form['k_number'])
         option = request.form['option']
+        if not os.path.exists(os.path.join(current_app.root_path, 'static/upload')):
+            os.makedirs(os.path.join(current_app.root_path, 'static/upload'))
         if option == 'direct':
             f_csv = request.files['csv']
             file_csv = os.path.join(current_app.root_path, 'static/upload/') + f_csv.filename
@@ -100,6 +105,8 @@ def cluster():
             print(f"{k_number}, {f_csv}, {file_csv}")
         else:
             file_csv = os.path.join(current_app.root_path, 'static/clus_pca_data/') + option + '.csv'
+        if not os.path.exists(os.path.join(current_app.root_path, 'static/img')):
+            os.makedirs(os.path.join(current_app.root_path, 'static/img'))
 
         df_csv = pd.read_csv(file_csv)
         # 전처리 - 정규화

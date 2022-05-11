@@ -14,8 +14,8 @@ content = '''
 			<td><strong>고양이</strong></td>
 		</tr>
 		<tr>
-			<td><img alt="" src="/static/upload/202205111409036563.jpg" style="height:200px; width:300px" /></td>
-			<td><img alt="" src="/static/upload/202205111409215825.jpg" style="height:198px; width:300px" /></td>
+			<td><img alt="" src="/static/upload/202205111700298986.jpg" style="height:200px; width:300px" /></td>
+			<td><img alt="" src="/static/upload/202205111659327849.jpg" style="height:198px; width:300px" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -66,6 +66,8 @@ def ckupload():
         fileobj = request.files['upload']
         fname, fext = os.path.splitext(fileobj.filename)
         rnd_name = '%s%s' % (gen_rnd_filename(), fext)
+        if not os.path.exists(os.path.join(current_app.root_path, 'static/upload')):
+            os.makedirs(os.path.join(current_app.root_path, 'static/upload'))
         filepath = os.path.join(current_app.static_folder, 'upload', rnd_name)
         dirname = os.path.dirname(filepath)
         fileobj.save(filepath)
