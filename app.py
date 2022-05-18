@@ -1,4 +1,3 @@
-from genericpath import exists
 from flask import Flask, render_template, request
 from flask import current_app
 from sklearn.preprocessing import StandardScaler
