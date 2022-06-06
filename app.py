@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask import current_app
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from bp_modue.module import module_bp
+from my_utils.sendmail import sendmail
 from datetime import datetime
 import os, joblib
 import numpy as np
@@ -17,12 +18,12 @@ app.register_blueprint(module_bp, url_prefix='/module')
 
 @app.route('/')
 def index():
-    menu = {'ho':1, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0}
+    menu = {'ho':1, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
     return render_template('index.html', menu=menu)
 
 @app.route('/menu1', methods=['GET', 'POST'])
 def menu1():
-    menu = {'ho':0, 'm1':1, 'm2':0, 'm3':0, 'cf':0, 'cu':0}
+    menu = {'ho':0, 'm1':1, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
     if request.method == 'GET':
         return render_template('menu1.html', menu=menu)
     else:
@@ -34,7 +35,7 @@ def menu1():
 
 @app.route('/menu2')
 def menu2():
-    menu = {'ho':0, 'm1':0, 'm2':1, 'm3':0, 'cf':0, 'cu':0}
+    menu = {'ho':0, 'm1':0, 'm2':1, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
     items = [
         {'id':1001, 'title':'HTML', 'content':'HTML is HyperText ...'},
         {'id':1002, 'title':'CSS', 'content':'CSS is Cascading ...'},
@@ -57,7 +58,7 @@ def menu2():
 
 @app.route('/classify', methods=['GET', 'POST'])
 def classify():
-    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':1, 'cu':0}
+    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':1, 'cu':0, 'ma':0}
     if request.method == 'GET':
         return render_template('classify.html', menu=menu)
     else:
@@ -89,7 +90,7 @@ def classify():
 
 @app.route('/cluster', methods=['GET', 'POST'])
 def cluster():
-    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':1}
+    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':1, 'ma':0}
     if request.method == 'GET':
         return render_template('cluster.html', menu=menu)
     else:
@@ -147,6 +148,22 @@ def cluster():
 
         mtime = int(os.stat(img_file).st_mtime)
         return render_template('cluster_res.html', menu=menu, k_number=k_number, mtime=mtime)
+
+@app.route('/mail', methods=['GET', 'POST'])
+def mail():
+    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':1}
+    if request.method == 'GET':
+        return render_template('mail.html', menu=menu)
+    else:
+        subject = request.form['subject']
+        addr = request.form['addr']
+        content = request.form['content']
+        files = request.files.getlist('fields[]')
+        for file in files:
+            file_up = os.path.join(current_app.root_path, 'static/upload/') + file.filename
+            file.save(file_up)
+        sendmail(subject, addr, content, files)
+        return redirect('/')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

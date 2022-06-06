@@ -4,7 +4,7 @@ import os, random
 from datetime import datetime
 
 module_bp = Blueprint('module_bp', __name__)
-menu = {'ho':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0}
+menu = {'ho':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0}
 title = 'CKEditor 사용 예(표와 이미지)'
 content = '''
 <table border="1" cellpadding="1" cellspacing="1" style="width:500px">
