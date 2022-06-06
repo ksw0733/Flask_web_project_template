@@ -25,7 +25,7 @@ def sendmail(subject, addr, content, files):
             part = MIMEBase('application', 'octet-stream')
             part.set_payload(f.read())
             encoders.encode_base64(part)
-            part.add_header('Content-Disposition', 'attachment', filename=filepath)
+            part.add_header('Content-Disposition', 'attachment', filename=file.filename)
             msg.attach(part)
             
     # send and quit
