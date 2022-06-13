@@ -21,9 +21,16 @@ content = '''
 </table>
 <p></p>'''
 
-@module_bp.route('/sub1')
+@module_bp.route('/sub1', methods=['GET', 'POST'])
 def sub1():
-    return render_template('module/sub1.html', menu=menu)
+    if request.method == 'GET':
+        return render_template('module/audio.html', menu=menu)
+    else:
+        text = '자세한 설명은 카카오 SSML 가이드를 참고하세요.'
+        audio_file = os.path.join(current_app.root_path, 'static/img/tts.mp3')
+        mtime = int(os.stat(audio_file).st_mtime)
+        return render_template('module/audio_res.html', menu=menu, 
+                                text=text, mtime=mtime)
 
 @module_bp.route('/sub2')
 def sub2():
