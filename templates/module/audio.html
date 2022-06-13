@@ -1,70 +1,43 @@
 {% extends "base.html" %}
+{% block additional_head %}
+    <style>
+        td { text-align: center; vertical-align: middle; }
+    </style>
+{% endblock %}
 {% block subtitle %}
     <strong>음성 녹음</strong>
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-            <form action="/module/sub1" method="post">
-                <table class="table table-borderless">
-                    <tr><td style="text-align: center;">
-                        <button type="button" class="btn btn-danger">음성 녹음 시작/종료</button>
-                    </td></tr>
-                    <tr><td style="text-align: center;">
-                        <input class="btn btn-primary" type="submit" value="확인">
-                    </td></tr>
-                </table>
-            </form>
+        <div class="col-1"></div>
+        <div class="col-10">
+            <table class="table">
+                <tr class="d-flex"><td class="col-1">
+                    동작
+                </td><td class="col-11">
+                    <div id="controls">
+                        <button class="btn btn-success mr-2" id="recordButton">Record</button>
+                        <button class="btn btn-secondary mr-2" id="pauseButton" disabled>Pause</button>
+                        <button class="btn btn-danger mr-2" id="stopButton" disabled>Stop</button>
+                    </div>
+                </td></tr>
+                <tr class="d-flex"><td class="col-1">
+                    형식 (Format)
+                </td><td class="col-11">
+                    <div id="formats">Start recording to see sample rate</div>
+                </td></tr>
+                <tr class="d-flex"><td class="col-1">
+                    녹음 파일
+                </td><td class="col-11">    
+                    <ol id="recordingsList"></ol>
+                </td></tr>
+                <tr><td colspan="2"></td></tr>
+            </table>
         </div>
-        <div class="col-3"></div>
-        <br>
+        <div class="col-1"></div>
     </div>
 {% endblock %}
 {% block additional_body %}
-    <script>
-    const $audioEl = document.querySelector("audio");   // audio 엘리먼트 취득
-    const $btn = document.querySelector("button");      // button 엘리먼트 취득
-    let isRecording = false;    // 녹음중 상태 변수
-    let mediaRecorder = null;   // MediaRecorder 변수 생성
-    const audioArray = [];      // 녹음 데이터 저장 배열
-
-    $btn.onclick = async function (event) {
-        if (!isRecording) {
-            // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
-            const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
-            
-            mediaRecorder = new MediaRecorder(mediaStream);     // MediaRecorder 생성
-
-            // 이벤트핸들러: 녹음 데이터 취득 처리
-            mediaRecorder.ondataavailable = (event) => {
-                audioArray.push(event.data);    // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
-            }
-
-            // 이벤트핸들러: 녹음 종료 처리 & 재생하기
-            mediaRecorder.onstop = (event) => {
-                // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-                const blob = new Blob(audioArray, {"type": "audio/wav codecs=opus"});
-                //var file = new File([blob], 'test.wav')
-                audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
-                
-                // Blob 데이터에 접근할 수 있는 주소를 생성한다.
-                const blobURL = URL.createObjectURL(blob);
-                var data = new FormData()
-                data.append('test.wav', blobURL, 'test.wav')
-
-                // audio엘리먼트로 재생한다.
-                //$audioEl.src = blobURL;
-                //$audioEl.play();
-            }
-            // 녹음 시작
-            mediaRecorder.start();
-            isRecording = true;
-        } else {
-            // 녹음 종료
-            mediaRecorder.stop();
-            isRecording = false;
-        }
-    }
-    </script>    
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script src="{{url_for('static', filename='js/record.js', q=17)}}"></script>    
 {% endblock %}
