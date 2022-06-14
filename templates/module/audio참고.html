@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Covid-19 확진 판별</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            text-decoration: none;
+            /* box-sizing: border-box; */
+        }
+        body{
+            height: 800px;
+            
+            overflow: hidden;
+            background-color: #d9d9d9;
+            transition: 2s;
+        }
+        #mask{
+            position: relative;
+
+            width : 850px;
+
+            top: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            transition: 2s;
+            z-index: 999999;
+        }
+        #mask:hover {
+            animation-timing-function: linear;
+            animation-duration: 1s;
+            animation-delay: 2;
+            animation-direction: alternate;
+            animation-fill-mode: forwards;
+            animation-name: tremble;
+            animation-iteration-count: infinite;
+            transform: translateX(-50%);
+            width: 950px;
+        }
+        @keyframes tremble{
+            0%{
+                transform: rotateZ(-1deg) translateX(-50%); 
+            }
+            25%{
+                transform: rotateZ(2deg) translateX(-50%);
+            }
+            50%{
+                transform: rotateZ(-2deg) translateX(-50%);
+            }
+            100%{
+                transform: rotateZ(1deg) translateX(-50%);
+            }
+        }
+        .title{
+            position: absolute;
+            display: inline-block;
+
+            left: 50%;
+            top: 150px;
+            transform: translateX(-50%);
+            color: #d9d9d9;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        #main_Box{
+            position: absolute;
+            display: none;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: 0.8s;
+
+            top: 200px;
+            width: 330px;
+            height: 270px;
+            padding: 20px 30px 20px 30px;
+
+            background-color: rgb(255,255,255);
+            border: 1px solid rgba(0, 0, 0, 0.055);
+            border-radius: 40px;
+            box-shadow: 0px 0px 150px 1px grey;
+        }
+        #record_box{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 330px;
+            height: 100%;
+        }
+        .mini_box{
+            position: absolute;
+            display: block;
+
+            left: 50%;
+            top : 10px;
+
+            width: 330px;
+            height: 100%;
+            transform: translateX(-50%);
+        }
+        input{
+            margin-top : 17px;
+        }
+        
+        .age {
+            padding: 0px 10px 0px 10px;
+            margin-top: 25px;
+            width: 20px;
+            transition: 0.2s;
+            height: 20px;
+
+            size: 2;
+            border: 3px solid black;
+            border-radius: 30%;
+        }
+        .age:hover {
+            background-color: #d9d9d9;
+
+            box-shadow: 0px 3px 15px 1px grey;
+
+            transition: 0.2s;
+        }
+        .gender {
+            margin-right: 15px;
+            display: inline-block;
+        }
+        label {
+            margin-left: 72px;
+            margin-right: 7px;
+        }
+        .gender_box {
+            margin-top: 15px;
+        }
+        .gender_box label:nth-child(3){
+            margin-left: 15px;
+        }
+        .healty_label{
+            position: relative;
+            top: -11px;
+        }
+        .helthy{
+            margin-top: 20px;
+            width: 145px;
+            height: 43px;
+
+            padding: 4px 0px 0px 7px;
+
+            overflow: hidden;
+            
+            border: 2px solid black;
+            border-radius: 12px;
+            line-height: 5px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .button_box{
+            width: 100%;
+            margin-top: 18px;
+            height: 60px;
+        }
+        button {
+            position: absolute;
+
+            margin-top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 6px 5px 6px;
+
+            border-radius: 5px;
+            background-color: black;
+            color: #d9d9d9;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+        #submit_button {
+            position: absolute;
+
+            margin-top: 22px;
+            left: 39%;
+            transform: translateX(-50%);
+            padding: 5px 13px 5px 13px;
+
+            border-radius: 5px;
+            background-color: black;
+            color: #d9d9d9;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+        #re-record{
+            position: absolute;
+            display: none;
+            margin-top: 22px;
+            left: 60%;
+            transform: translateX(-50%);
+            padding: 5px 6px 5px 6px;
+
+            border-radius: 5px;
+            background-color: black;
+            color: #d9d9d9;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+        
+        #record{
+            z-index: 9999;
+        }
+        #dot{
+            position: absolute;
+            display: none;
+            
+            margin-right: 5px;
+            left: 125px;
+            bottom : 88px;
+
+            width: 7px;
+            height: 7px;
+
+            box-sizing: border-box;
+            background-color: red;
+            border-radius: 50%;
+            box-shadow: 1px 1px 2px 2px lightgrey;
+
+            z-index: 9999;
+
+            animation-name: dot;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+            animation-duration: 0.7s;
+        }
+        @keyframes dot{
+            0% {
+                opacity: 100;
+            }
+            60%{
+                opacity:35;
+            }
+            100%{
+                opacity: 0;
+            }
+        }
+
+
+        #stop, #submit_button {
+            z-index: 0;
+            display: none;
+        }
+        
+        button:hover, #submit_button:hover, #re-record:hover {
+            background-color: #d9d9d9;
+            transition: 0.2s;
+            color:black;
+            box-shadow: 0px 3px 15px 1px grey;
+            border: 1px solid #d9d9d9;
+        }
+        #sound-clips{
+            position: absolute;
+            display: none;
+
+            width: 100%;
+            height: 60px;
+            margin-top: 40px;
+            bottom: 10px;
+
+            transition: 3s;
+        }
+        .clip{
+            width: 100%;
+            height: 100%;
+        }
+        .clipContainer{
+            transition:1s;
+            opacity:0;
+        }
+        audio{
+            position:absolute;
+            width : 300px;
+            left: 50%;
+
+            transform: translateX(-50%);
+            transition: 5s;
+            opacity: 0;
+        }
+        #list_div{
+            position: absolute;
+            display: none;
+            left: 20%;
+            top: 34%;
+        }
+        #list_div ol{
+            position: absolute;
+            display: inline;
+
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        #list_div ol li a{
+            color: #d9d9d9;
+        }
+        #list_div ol li {
+            display: inline-block;
+            width: 90px;
+            height: 25px;
+
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            line-height: 25px;
+
+        }
+        #list_div ol li:first-child{
+            top: 0;
+            border-bottom: 1px solid #d9d9d9;
+        }
+        #list_div ol li:nth-child(2){
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id = "list_div">
+        <ol>
+            <li><a href="/">메인 화면</a></li>
+            <li><a href="./selectNum">테스트 데이터</a></li>
+        </ol>
+    </div>
+    <form name = "audio_submit", method="post", action = "./result", onsubmit="return check()">
+       <img id = "mask" src="{{url_for('static',filename=mask)}}" alt="mask">
+        <h3 class =  "title">Covid-19 확진판별</h3>
+        <div id = "main_Box">
+            <div id = record_box>
+                <div class="mini_box">
+                    <label for="age", class = "age_label"><b>나이</b></label><input type = "text" class ="age" name = "age" maxlength="3">
+                    <div class = "gender_box">
+                        <label class= "gender_label"><b>남자</b></label><input type = "radio", name = "gender", class ="gender" value = "male">
+                        <label class= "gender_label"><b>여자</b></label><input type = "radio", name = "gender", class ="gender", value = "female">
+                    </div>
+                    <label for="helthy" class = "healty_label"><b>증상</b></label>
+                    <select id = "healty" name="healty" class="helthy" multiple = "multiple">
+                        <option value="respiratory_condition">호흡기 질환 있음</option>
+                        <option value="fever_muscle_pain">발열 혹은 근육통 있음</option>
+                    </select>
+                    <div class="button_box">
+                        <div id = "dot"></div>
+                        <button id="record">녹음</button>
+                        <button id="stop">정지</button>
+                        <input type="submit" id = "submit_button", value = "확인">
+                        <button id="re-record">재녹음</button>
+                    </div>
+                </div>
+                <div id="sound-clips"></div>
+            </div>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        const mask = document.getElementById("mask")
+        // const maskButton = document.getElementById("mask_button")
+        const main_Box = document.getElementById("main_Box")
+        const dot = document.getElementById("dot")
+        const record = document.getElementById("record")
+        const stop = document.getElementById("stop")
+        const subm = document.getElementById("submit_button")
+        const rerecord = document.getElementById("re-record")
+        const soundClips = document.getElementById("sound-clips")
+        const audioCtx = new(window.AudioContext || window.webkitAudioContext)() // 오디오 컨텍스트 정의
+        const analyser = audioCtx.createAnalyser()
+            //    const distortion = audioCtx.createWaveShaper()
+            //    const gainNode = audioCtx.createGain()
+            //    const biquadFilter = audioCtx.createBiquadFilter()
+
+        function ran(){   // 마스크 날라가는 랜덤 난수 생성..... 그냥 재밌어서 만든거
+                var r = Math.floor((Math.random() * -250)) + 125;
+                if(r > -100 && r < 100){
+                    r = ran();
+                } 
+                return r;
+        } 
+
+        mask.onclick = () => {
+            mask.style.opacity = "0"
+            // mask.style.transform = "rotateZ(90deg) rotateY(90deg) "
+            mask.style.left = String(ran()) + "%"
+            mask.style.width = "50%"
+            main_Box.style.display = "block"
+            document.getElementById("list_div").style.display = "inline-block"
+            document.getElementsByTagName("body")[0].style.backgroundColor = "black"
+        }
+
+        function check(){ 
+            if(document.audio_submit.age.value < 0){
+                alert("0세 이상의 나이를 입력하세요.")
+                document.audio_submit.age.value = null
+                document.audio_submit.age.focus();
+                return false;    
+            }
+            if(document.audio_submit.age.value > 110){
+                alert("더 적은 나이를 입력하세요.")
+                document.audio_submit.age.value = null
+                document.audio_submit.age.focus();
+                return false;    
+            }
+            if(!document.audio_submit.age.value){
+                alert("나이를 입력하세요"); 
+                document.audio_submit.age.focus();
+                return false; 
+            }
+            if(!document.audio_submit.gender.value){
+                alert("성별을 선택하세요");  
+                return false;    
+            }
+        }
+        function makeSound(stream) {
+            const source = audioCtx.createMediaStreamSource(stream)
+
+            source.connect(analyser)
+            //            analyser.connect(distortion)
+            //            distortion.connect(biquadFilter)
+            //            biquadFilter.connect(gainNode)
+            //            gainNode.connect(audioCtx.destination) // connecting the different audio graph nodes together
+            analyser.connect(audioCtx.destination)
+
+        }
+        
+
+        if (navigator.mediaDevices) {
+            console.log('getUserMedia supported.')
+
+            const constraints = {
+                audio: true
+            }
+            let chunks = []
+
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(stream => {
+                    const mediaRecorder = new MediaRecorder(stream)
+                    
+                    record.onclick = e => {
+                        e.preventDefault()
+                        mediaRecorder.start()
+                        console.log(mediaRecorder.state)
+                        console.log("recorder started")
+                        record.style.display = "none"
+                        record.style.display = "none"
+                        stop.style.display = "block"
+                        dot.style.display = "block"
+                    }
+
+                    stop.onclick = e => {
+                        e.preventDefault()
+                        mediaRecorder.stop()
+                        console.log(mediaRecorder.state)
+                        console.log("recorder stopped")
+                        record.style.background = ""
+                        record.style.color = ""
+                        main_Box.style.height = "350px"
+                        subm.style.display = "block"
+                        rerecord.style.display = "block"
+                        stop.style.display = "none"
+                        dot.style.display = "none"
+                        soundClips.style.display = "block"
+                        soundClips.style.bottom = "60px"
+                    }
+                    rerecord.onclick = e => {
+                        e.preventDefault()
+                        record.style.display = "block"
+                        rerecord.style.display = "none"
+                        subm.style.display = "none"
+                        soundClips.removeChild(document.getElementsByClassName("clip")[0])
+                        soundClips.style.display = "none"
+                        main_Box.style.height = "270px"
+                        delete audio
+                    }
+                    
+                    mediaRecorder.onstop = e => {
+                        console.log("data available after MediaRecorder.stop() called.")
+
+                        const audio = document.createElement('audio')
+                        const clipContainer = document.createElement('div')
+                        const deleteButton = document.createElement('button')
+
+                        audio.style.opacity = "100"
+                        clipContainer.classList.add('clip')
+                        audio.setAttribute('controls', '')
+                        deleteButton.innerHTML = "삭제" 
+
+                        clipContainer.appendChild(audio)
+                        soundClips.appendChild(clipContainer)
+
+                        audio.controls = true
+                        const blob = new Blob(chunks, {
+                            type: 'audio/wav codecs=opus'
+                        })
+
+                        // 오디오 데이터 ajax
+                        const formData = new FormData() 
+                        formData.append("audio_blob", blob)
+
+                        $.ajax({
+                            type:"POST",
+                            url:"/set",
+                            data:formData,
+                            contentType:false,
+                            processData:false,
+                            success: function(result){
+                                console.log("success", result)
+                            },
+                            error: function(result){
+                                alert("failed")
+                            }
+                        })
+
+                        chunks = []  // 오디오 데이터 초기화인데
+                        const audioURL = URL.createObjectURL(blob)  // audioURL 이 url로 들어가면 오디오 파일 있음
+                        audio.src = audioURL // audioURL로 audio객체에 데이터 설정
+                       
+                        console.log("recorder stopped")
+                        
+                    }
+
+                    mediaRecorder.ondataavailable = e => {
+                        chunks.push(e.data)
+                    }
+                })
+                .catch(err => {
+                    console.log('The following error occurred: ' + err)
+                })
+
+        }
+    </script>
+</body></html>

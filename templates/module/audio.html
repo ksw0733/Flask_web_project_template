@@ -1,43 +1,27 @@
 {% extends "base.html" %}
-{% block additional_head %}
-    <style>
-        td { text-align: center; vertical-align: middle; }
-    </style>
-{% endblock %}
 {% block subtitle %}
     <strong>음성 녹음</strong>
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10">
-            <table class="table">
-                <tr class="d-flex"><td class="col-1">
-                    동작
-                </td><td class="col-11">
-                    <div id="controls">
-                        <button class="btn btn-success mr-2" id="recordButton">Record</button>
-                        <button class="btn btn-secondary mr-2" id="pauseButton" disabled>Pause</button>
-                        <button class="btn btn-danger mr-2" id="stopButton" disabled>Stop</button>
+        <div class="col-2"></div>
+        <div class="col-8">
+            <table class="table table-borderless">
+                <tr><td style="text-align: center;">
+                    <div class="button_box">
+                        <button type="button" class="btn btn-danger mr-2" id="record">녹음</button>
+                        <button type="button" class="btn btn-dark disabled mr-2" id="stop">정지 및 전송</button>
                     </div>
                 </td></tr>
-                <tr class="d-flex"><td class="col-1">
-                    형식 (Format)
-                </td><td class="col-11">
-                    <div id="formats">Start recording to see sample rate</div>
+                <tr><td style="text-align: center;">
                 </td></tr>
-                <tr class="d-flex"><td class="col-1">
-                    녹음 파일
-                </td><td class="col-11">    
-                    <ol id="recordingsList"></ol>
-                </td></tr>
-                <tr><td colspan="2"></td></tr>
             </table>
+
         </div>
-        <div class="col-1"></div>
+        <div class="col-2"></div>
+        <br>
     </div>
 {% endblock %}
 {% block additional_body %}
-    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
-    <script src="{{url_for('static', filename='js/record.js', q=17)}}"></script>    
+    <script src="{{url_for('static', filename='js/audio.js', q=31)}}"></script> 
 {% endblock %}

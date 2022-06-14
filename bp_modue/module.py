@@ -28,33 +28,22 @@ def sub1():
         return render_template('module/audio.html', menu=menu)
     else:
         print('Post /sub1')
+        file = request.files['audio_blob']
         filename = 'static/img/file.wav'
         print(filename)
-        with open(filename, 'wb') as f:
-            data = request.get_data('audio_data')
-            print(len(data))
-            f.write(data)
+        file.save(filename)
+
         text = '자세한 설명은 카카오 SSML 가이드를 참고하세요.'
         audio_file = os.path.join(current_app.root_path, filename)
         mtime = int(os.stat(audio_file).st_mtime)
         print(mtime)
         return render_template('module/audio_res.html', menu=menu, text=text, mtime=mtime)
 
-@module_bp.route('/sub1_res', methods=['GET', 'POST'])
+@module_bp.route('/sub1_res')
 def sub1_res():
-    if request.method == 'GET':
         print('Get /sub1_res')
-        return render_template('module/audio.html', menu=menu)
-    else:
-        print('Post /sub1_res')
-        filename = 'static/img/file.wav'
-        print(filename)
-        with open(filename, 'wb') as f:
-            data = request.get_data('audio_data')
-            print(len(data))
-            f.write(data)
         text = '자세한 설명은 카카오 SSML 가이드를 참고하세요.'
-        audio_file = os.path.join(current_app.root_path, filename)
+        audio_file = os.path.join(current_app.root_path, 'static/img/file.wav')
         mtime = int(os.stat(audio_file).st_mtime)
         print(mtime)
         return render_template('module/audio_res.html', menu=menu, text=text, mtime=mtime)
