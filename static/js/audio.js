@@ -22,7 +22,11 @@ if (navigator.mediaDevices) {
     let chunks = [];
 
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-        const mediaRecorder = new MediaRecorder(stream);
+        let options = {
+            audioBitsPerSecond : 16000,
+            mimeType : 'audio/ogg'
+        }
+        const mediaRecorder = new MediaRecorder(stream, options);
         
         record.onclick = e => {
             e.preventDefault();
