@@ -1,27 +1,71 @@
 {% extends "base.html" %}
+{% block additional_head %}
+    <style>
+        td { text-align: center; }
+    </style>
+{% endblock %}
 {% block subtitle %}
     <strong>음성 인식</strong>
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
+        <div class="col-1"></div>
+        <div class="col-10">
             <table class="table table-borderless">
-                <tr><td style="text-align: center;">
-                    <div class="button_box">
-                        <button type="button" class="btn btn-danger mr-2" id="record">녹음</button>
-                        <button type="button" class="btn btn-dark disabled mr-2" id="stop">정지 및 전송</button>
-                    </div>
-                </td></tr>
+                <tr>
+                    <td>언어 선택</td>
+                    <td>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="lang" value="korean" checked>한국어
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="lang" value="english">영어
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="lang" value="japanese">일어
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="lang" value="chinese">중국어
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="lang" value="french">프랑스어
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="lang" value="spanish">스페인어
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>동작</td>
+                    <td>
+                        <div class="button_box">
+                            <button type="button" class="btn btn-danger mr-2" id="record">녹음</button>
+                            <span id="mic" class=""></span>
+                            <button type="button" class="btn btn-dark disabled mr-2" id="stop">정지 및 전송</button>
+                        </div>
+                    </td>
+                </tr>
                 <tr><td style="text-align: center;">
                 </td></tr>
             </table>
 
         </div>
-        <div class="col-2"></div>
+        <div class="col-1"></div>
         <br>
     </div>
 {% endblock %}
 {% block additional_body %}
-    <script src="{{url_for('static', filename='js/audio.js', q=34)}}"></script> 
+    <script src="{{url_for('static', filename='js/audio.js', q=40)}}"></script> 
 {% endblock %}

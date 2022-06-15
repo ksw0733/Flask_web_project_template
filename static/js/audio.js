@@ -3,7 +3,7 @@ const record = document.getElementById("record");
 const stop = document.getElementById("stop");
 //const subm = document.getElementById("submit_button");
 const rerecord = document.getElementById("re-record");
-//const soundClips = document.getElementById("sound-clips");
+const mic = document.getElementById("mic");
 const audioCtx = new(window.AudioContext || window.webkitAudioContext)(); // 오디오 컨텍스트 정의
 const analyser = audioCtx.createAnalyser();
 
@@ -24,14 +24,18 @@ if (navigator.mediaDevices) {
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         let options = {
             audioBitsPerSecond : 16000,
-            mimeType : 'audio/ogg'
+            mimeType : 'audio/wav'
         }
-        const mediaRecorder = new MediaRecorder(stream, options);
-        
+        //const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
+        //const mediaRecorder = new MediaRecorder(stream, options=options);
+        const mediaRecorder = new MediaRecorder(stream);
+
         record.onclick = e => {
             e.preventDefault();
             mediaRecorder.start();
             console.log("recorder started", mediaRecorder.state);
+            mic.classList.add('mr-2')
+            mic.innerHTML = '<i class="fa-solid fa-microphone"></i>'
             stop.classlist.remove('disabled');
         }
 

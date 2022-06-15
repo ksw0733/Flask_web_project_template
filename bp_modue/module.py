@@ -24,7 +24,7 @@ content = '''
 <p></p>'''
 
 @module_bp.route('/recog', methods=['GET', 'POST'])
-def sub1():
+def recog():
     global recog_text
     if request.method == 'GET':
         #print('Get /recog')
@@ -62,9 +62,9 @@ def sub1():
         return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
 
 @module_bp.route('/recog_res')
-def sub1_res():
+def recog_res():
         #print('Get /sub1_res')
-        audio_file = os.path.join(current_app.root_path, 'static/img/file.wav')
+        audio_file = os.path.join(current_app.root_path, 'static/img/recog.wav')
         mtime = int(os.stat(audio_file).st_mtime)
         return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
 
