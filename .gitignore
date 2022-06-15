@@ -3,6 +3,7 @@ exercise.ipynb
 model/
 upload/
 img/
+keys/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

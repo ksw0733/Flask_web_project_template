@@ -49,13 +49,13 @@ if (navigator.mediaDevices) {
 
             $.ajax({
                 type: "POST",
-                url: "/module/sub1",
+                url: "/module/recog",
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(result) {
                     console.log("success");
-                    location.replace('/module/sub1_res');
+                    location.replace('/module/recog_res');
                 },
                 error: function(result) {
                     alert("failed");

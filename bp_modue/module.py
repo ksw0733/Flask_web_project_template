@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, request, redirect
 from flask import current_app, make_response, url_for
 import os, random
+import urllib3, json, base64
 from datetime import datetime
 
 module_bp = Blueprint('module_bp', __name__)
 menu = {'ho':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0}
+recog_text = ''
 title = 'CKEditor 사용 예(표와 이미지)'
 content = '''
 <table border="1" cellpadding="1" cellspacing="1" style="width:500px">
@@ -21,29 +23,50 @@ content = '''
 </table>
 <p></p>'''
 
-@module_bp.route('/sub1', methods=['GET', 'POST'])
+@module_bp.route('/recog', methods=['GET', 'POST'])
 def sub1():
+    global recog_text
     if request.method == 'GET':
-        #print('Get /sub1')
+        #print('Get /recog')
         return render_template('module/audio.html', menu=menu)
     else:
-        #print('Post /sub1')
+        #print('Post /recog')
+        lang_code = "korean"
         file = request.files['audio_blob']
-        filename = 'static/img/file.wav'
+        filename = 'static/img/recog.wav'
         file.save(filename)
 
-        text = '자세한 설명은 카카오 SSML 가이드를 참고하세요.'
+        with open('static/keys/etriaikey.txt') as kf:
+            ai_key = kf.read()
+        with open(filename, 'rb') as af:
+            audio_contents = base64.b64encode(af.read()).decode('utf8')
+        request_json = {
+            "access_key": ai_key,
+            "argument": {
+                "language_code": lang_code,
+                "audio": audio_contents
+            }
+        }
+        open_api_url = "http://aiopen.etri.re.kr:8000/WiseASR/Recognition"
+        http = urllib3.PoolManager()
+        response = http.request(
+            "POST",
+            open_api_url,
+            headers={"Content-Type": "application/json; charset=UTF-8"},
+            body=json.dumps(request_json)
+        )
+        result = json.loads(str(response.data,"utf-8"))
+        recog_text = result["return_object"]["recognized"]
         audio_file = os.path.join(current_app.root_path, filename)
         mtime = int(os.stat(audio_file).st_mtime)
-        return render_template('module/audio_res.html', menu=menu, text=text, mtime=mtime)
+        return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
 
-@module_bp.route('/sub1_res')
+@module_bp.route('/recog_res')
 def sub1_res():
         #print('Get /sub1_res')
-        text = '자세한 설명은 카카오 SSML 가이드를 참고하세요.'
         audio_file = os.path.join(current_app.root_path, 'static/img/file.wav')
         mtime = int(os.stat(audio_file).st_mtime)
-        return render_template('module/audio_res.html', menu=menu, text=text, mtime=mtime)
+        return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
 
 @module_bp.route('/sub2')
 def sub2():
