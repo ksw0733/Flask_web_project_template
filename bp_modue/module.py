@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, redirect
-from flask import current_app, make_response, url_for
+from flask import current_app, make_response, url_for, flash
 import os, random
 import urllib3, json, base64
 from datetime import datetime
 
 module_bp = Blueprint('module_bp', __name__)
 menu = {'ho':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0}
-recog_text = ''
+
 title = 'CKEditor 사용 예(표와 이미지)'
 content = '''
 <table border="1" cellpadding="1" cellspacing="1" style="width:500px">
@@ -27,17 +27,19 @@ content = '''
 def recog():
     global recog_text
     if request.method == 'GET':
-        #print('Get /recog')
         return render_template('module/audio.html', menu=menu)
     else:
-        #print('Post /recog')
-        lang_code = "korean"
         file = request.files['audio_blob']
         filename = 'static/img/recog.wav'
         file.save(filename)
+        return '0'
 
+@module_bp.route('/recog_res', methods=['POST'])
+def recog_res():
+        lang_code = request.form['lang']
         with open('static/keys/etriaikey.txt') as kf:
             ai_key = kf.read()
+        filename = 'static/img/recog.wav'
         with open(filename, 'rb') as af:
             audio_contents = base64.b64encode(af.read()).decode('utf8')
         request_json = {
@@ -56,15 +58,12 @@ def recog():
             body=json.dumps(request_json)
         )
         result = json.loads(str(response.data,"utf-8"))
-        recog_text = result["return_object"]["recognized"]
+        #print(result)
+        if result["result"] != 0:
+            recog_text = f'실패: {result["reason"]}'
+        else:
+            recog_text = result["return_object"]["recognized"]
         audio_file = os.path.join(current_app.root_path, filename)
-        mtime = int(os.stat(audio_file).st_mtime)
-        return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
-
-@module_bp.route('/recog_res')
-def recog_res():
-        #print('Get /sub1_res')
-        audio_file = os.path.join(current_app.root_path, 'static/img/recog.wav')
         mtime = int(os.stat(audio_file).st_mtime)
         return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
 

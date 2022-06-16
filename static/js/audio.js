@@ -1,17 +1,33 @@
-//const dot = document.getElementById("dot");
 const record = document.getElementById("record");
 const stop = document.getElementById("stop");
-//const subm = document.getElementById("submit_button");
-const rerecord = document.getElementById("re-record");
 const mic = document.getElementById("mic");
+const td1 = document.getElementById("td1");
+const td2 = document.getElementById("td2");
 const audioCtx = new(window.AudioContext || window.webkitAudioContext)(); // 오디오 컨텍스트 정의
 const analyser = audioCtx.createAnalyser();
+const audio = document.createElement('audio');
 
 function makeSound(stream) {
     const source = audioCtx.createMediaStreamSource(stream);
 
     source.connect(analyser);
     analyser.connect(audioCtx.destination);
+}
+
+function tableData() {
+    audio.setAttribute('controls', '');
+    td1.append(audio);
+
+    let input = document.createElement("input");
+    input.classList.add("btn", "btn-primary", "mr-2");
+    input.setAttribute('type', 'submit');
+    input.setAttribute('value', '제출');
+    td2.append(input);
+    input = document.createElement("input");
+    input.classList.add("btn", "btn-secondary");
+    input.setAttribute('type', 'reset');
+    input.setAttribute('value', '취소');
+    td2.append(input);
 }
 
 console.log(navigator.mediaDevices);
@@ -24,23 +40,26 @@ if (navigator.mediaDevices) {
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         let options = {
             audioBitsPerSecond : 16000,
-            mimeType : 'audio/wav'
+            //mimeType : 'audio/wav'
         }
         //const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
-        //const mediaRecorder = new MediaRecorder(stream, options=options);
-        const mediaRecorder = new MediaRecorder(stream);
+        const mediaRecorder = new MediaRecorder(stream, options=options);
+        //const mediaRecorder = new MediaRecorder(stream);
 
         record.onclick = e => {
             e.preventDefault();
             mediaRecorder.start();
             console.log("recorder started", mediaRecorder.state);
+            record.classList.replace('btn-danger', 'btn-secondary')
             mic.classList.add('mr-2')
-            mic.innerHTML = '<i class="fa-solid fa-microphone"></i>'
-            stop.classlist.remove('disabled');
+            mic.innerHTML = '<i class="fas fa-microphone"></i>'
+            stop.classList.replace('btn-dark', 'btn-danger')
+            stop.classList.remove('disabled');
         }
 
         stop.onclick = e => {
             e.preventDefault();
+            tableData();
             mediaRecorder.stop();
             console.log("recorder stopped", mediaRecorder.state);
         }
@@ -63,17 +82,13 @@ if (navigator.mediaDevices) {
                 processData: false,
                 success: function(result) {
                     console.log("success");
-                    location.replace('/module/recog_res');
                 },
                 error: function(result) {
                     alert("failed");
                 }
             })
-
-            /* chunks = [];            // 오디오 데이터 재초기화
-            const audioURL = URL.createObjectURL(blob);  // audioURL 이 url로 들어가면 오디오 파일 있음
-            audio.src = audioURL; */   // audioURL로 audio객체에 데이터 설정
-            
+            const audioURL = URL.createObjectURL(blob);
+            audio.src = audioURL
             console.log("recorder stopped");
         }
         mediaRecorder.ondataavailable = e => {
