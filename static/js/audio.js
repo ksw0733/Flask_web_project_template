@@ -7,13 +7,6 @@ const audioCtx = new(window.AudioContext || window.webkitAudioContext)(); // 오
 const analyser = audioCtx.createAnalyser();
 const audio = document.createElement('audio');
 
-function makeSound(stream) {
-    const source = audioCtx.createMediaStreamSource(stream);
-
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-}
-
 function tableData() {
     audio.setAttribute('controls', '');
     td1.append(audio);
@@ -67,7 +60,8 @@ if (navigator.mediaDevices) {
         mediaRecorder.onstop = e => {
             console.log("data available after MediaRecorder.stop() called.");
             const blob = new Blob(chunks, {
-                type: 'audio/wav codecs=opus'
+                //type: 'audio/wav codecs=opus'
+                type: 'audio/wav; codecs=MS_PCM'
             });
 
             // 오디오 데이터 ajax
