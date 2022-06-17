@@ -61,7 +61,8 @@ if (navigator.mediaDevices) {
             console.log("data available after MediaRecorder.stop() called.");
             const blob = new Blob(chunks, {
                 //type: 'audio/wav codecs=opus'
-                type: 'audio/wav; codecs=MS_PCM'
+                //type: 'audio/wav; codecs=MS_PCM'
+                type: 'audio/wav; codecs=G.711'
             });
 
             // 오디오 데이터 ajax
