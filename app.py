@@ -3,7 +3,7 @@ from flask import current_app
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
-from bp_modue.module import module_bp
+from bp_module.module import module_bp
 from my_utils.sendmail import sendmail
 from datetime import datetime
 import os, joblib
