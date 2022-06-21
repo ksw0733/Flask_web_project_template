@@ -7,7 +7,7 @@
     </style>
 {% endblock %}
 {% block subtitle %}
-    <strong>프로젝트 내역 상세 조회</strong>
+    <strong>프로젝트 상세 조회</strong>
     <span style="font-size: 0.6em;">
         <a href="/pbbs/list/{{page}}" class="ml-5""><i class="fas fa-list-ul"></i> 목록</a>
         <a href="/pbbs/update/{{row[0]}}" class="ml-3"><i class="far fa-edit"></i> 수정</a>  <!-- uid, pid -->
@@ -16,21 +16,45 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-8">
-            <h4>{{row[3]}}</h4>     <!-- title -->
-            <h6>글번호: {{row[0]}} | {{row[5]}}</h6>    <!-- bid, modTime -->
+        <div class="col-7">
+            <h4>{{row.title}}</h4>     <!-- title -->
+            <h6>pid: {{row.pid}} | {{row.period}} | 조회: {{row.viewCount}}</h6>    <!-- pid, period, viewCount -->
         </div>
-        <div class="col-4" style="text-align: right;">
-            <h4>{{row[2]}}</h4>     <!-- uname -->
-            <h6>조회 {{row[6]+inc}}&nbsp;&nbsp;댓글 {{row[7]}}</h6>     <!-- viewCount, replyCount -->
+        <div class="col-5" style="text-align: right;">
+            <h4>{{row.course_org}}</h4>     <!-- course_org -->
+            <h6>{{row.course_name}}</h6>     <!-- course_name -->
         </div>
         <div class="col-12"><hr></div>
-        <div class="col-12">
+        <div class="col-2">내용</div>
+        <div class="col-10">
             {% autoescape false %}
-                {{row[4]|safe()}}       <!-- content -->
+                {{row.desc | safe()}}       <!-- desc -->
             {% endautoescape %}
         </div>
-
+        <div class="col-12"><hr></div>
+        <div class="col-2">해쉬태그</div>
+        <div class="col-10">
+            {% for hashtag in row.hash %}
+                {{hashtag}}
+                {% if not loop.last %}
+                    ,&nbsp;
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-12"><hr></div>
+        <div class="col-2">멤버</div>
+        <div class="col-10">
+            {% for line in row.authors %}
+                {{line.author}} ({{line.email}})<br>
+            {% endfor %}
+        </div>
+        <div class="col-12"><hr></div>
+        <div class="col-2">첨부파일</div>
+        <div class="col-10">
+            {% for file in row.files %}
+                {{file}} <button type="button" class="btn btn-outline-primary btn-sm mr-3">다운로드</button>
+            {% endfor %}
+        </div>
         <div class="col-12"><hr></div>
     </div>
 {% endblock %}
