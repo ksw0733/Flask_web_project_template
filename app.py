@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from bp_module.module import module_bp
+from bp_pbbs.pbbs import pbbs_bp
 from my_utils.sendmail import sendmail
 from datetime import datetime
 import os, joblib
@@ -15,10 +16,11 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 app.register_blueprint(module_bp, url_prefix='/module')
+app.register_blueprint(pbbs_bp, url_prefix='/pbbs')
 
 @app.route('/')
 def index():
-    menu = {'ho':1, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
+    menu = {'ho':1, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
     return render_template('index.html', menu=menu)
 
 @app.route('/menu1', methods=['GET', 'POST'])
