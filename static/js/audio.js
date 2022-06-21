@@ -33,6 +33,7 @@ if (navigator.mediaDevices) {
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         let options = {
             audioBitsPerSecond : 16000,
+            //mimeType : 'audio/ogg'
             //mimeType : 'audio/wav'
         }
         //const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
@@ -60,9 +61,10 @@ if (navigator.mediaDevices) {
         mediaRecorder.onstop = e => {
             console.log("data available after MediaRecorder.stop() called.");
             const blob = new Blob(chunks, {
-                //type: 'audio/wav codecs=opus'
+                type: 'audio/wav codecs=opus'
                 //type: 'audio/wav; codecs=MS_PCM'
-                type: 'audio/wav; codecs=G.711'
+                //type: 'audio/wav; codecs=G.711'
+                //type: 'audio/ogg codecs=opus'
             });
 
             // 오디오 데이터 ajax
