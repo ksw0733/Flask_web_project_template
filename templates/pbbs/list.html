@@ -9,7 +9,7 @@
 {% block subtitle %}
     <strong>프로젝트 게시판 목록</strong>
     <span style="font-size: 0.6em;">
-        <a href="/pbbs/write" class="ml-5"><i class="far fa-file-alt"></i> 등록하기</a>
+        <a href="/pbbs/register" class="ml-5"><i class="far fa-file-alt"></i> 등록하기</a>
     </span>
 {% endblock %}
 {% block content %}
@@ -18,19 +18,19 @@
             <table class="table table-condensed table-hover" style="margin-bottom: 80px;">
                 <tr class="table-secondary d-flex">
                     <th class="col-1">번호</th>
-                    <th class="col-5">제목</th>
+                    <th class="col-6">제목</th>
                     <th class="col-2">기관</th>
                     <th class="col-1">인원수</th>
-                    <th class="col-2">진행년월</th>
+                    <th class="col-1">기간</th>
                     <th class="col-1">조회수</th>
                 </tr>
                 {% for row in plist %}
                     <tr class="d-flex">
                         <td class="col-1">{{row.pid}}</td>
-                        <td class="col-5"><a href="/pbbs/view/{{row.pid}}"><strong>{{row.title}}</strong></a></td>
+                        <td class="col-6"><a href="/pbbs/view/{{row.pid}}"><strong>{{row.title}}</strong></a></td>
                         <td class="col-2">{{row.org}}</td>
                         <td class="col-1">{{row.numAuthor}}</td>
-                        <td class="col-2">{{row.when}}</td>
+                        <td class="col-1">{{row.term}}</td>
                         <td class="col-1">{{row.viewCount}}</td>
                     </tr>
                 {% endfor %}

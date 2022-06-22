@@ -4,6 +4,7 @@ model/
 upload/
 img/
 keys/
+project_upload/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
