@@ -8,17 +8,17 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-            <form method="post" enctype="multipart/form-data" onsubmit="return false;">
+            <form action="/pbbs/update_file" method="post" enctype="multipart/form-data">
                 <table class="table table-borderless table-sm">
                     <tr class="d-flex">
                         <td class="col-2" style="text-align: center;">첨부파일</td>
                         <td class="col-10">
-                            <div class="uploaded-group" id="upfiles">
+                            <div class="uploaded-group">
                                 {% for file in files %}
-                                <div class="uploaded">{{loop.index}}
-                                    <span class="sp">{{file}}</span>
-                                    <a href="javascript:void(0);" onclick="del_file(this)" fname="{{file}}"><span class="badge badge-secondary">삭제</span></a>
-                                </div>
+                                    <div class="uploaded">
+                                        <span class="sp">{{file}}</span>
+                                        <a href="javascript:return false;" onclick="del_file(this)" fname="{{file}}"><span class="badge badge-secondary mb-2">삭제</span></a>
+                                    </div>
                                 {% endfor %}
                             </div>
                         </td>
@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <button class="btn btn-primary" id="send">제출</button>
+                            <button class="btn btn-primary" id="send" onclick="send()">제출</button>
                         </td>
                     </tr>
                 </table>
@@ -51,33 +51,18 @@
 {% block additional_body %}
     <script>
         function del_file(obj) {
-            let fname = $(obj).attr('fname');
-            let div = $(obj).parent();
-            console.log(div.text());
-            let group = $('#upfiles');
-            group.remove(div);
-            console.log(group.text());
-            console.log(fname, 'del_file badge clicked');
-        };
+            $(obj).parent().remove();
+        }
         $(function () {
-            var flist = [];
-            $(document).ready(function() {
-                var controlForm = $('.controls:first');
+            $(document).on('click', '#send', function(e) {
+                let flist = [];
+                e.preventDefault();
                 $('.sp').each(function(i) {
-                    str = $(this).text();
-                    fname = str.slice(0, str.length);
+                    fname = $(this).text();
                     flist.push(fname);
-                    /* var currentEntry = $('.entry:first').find('input').val('');
-                    var newEntry = $(currentEntry.clone()).appendTo(controlForm);
-                    newEntry.find('input').val('');
-                    controlForm.find('.entry:not(:last) .btn-add')
-                        .removeClass('btn-add').addClass('btn-remove')
-                        .removeClass('btn-success').addClass('btn-danger')
-                        .html('<span class="fa fa-trash"></span>'); */
                 });
-                console.log(flist);
-            });
-            $(document).on('click', '.btn-add', function (e) {
+                console.log(JSON.stringify(flist));
+            }).on('click', '.btn-add', function(e) {
                 e.preventDefault();
     
                 var controlForm = $('.controls:first'),
@@ -89,7 +74,7 @@
                     .removeClass('btn-add').addClass('btn-remove')
                     .removeClass('btn-success').addClass('btn-danger')
                     .html('<span class="fa fa-trash"></span>');
-            }).on('click', '.btn-remove', function (e) {
+            }).on('click', '.btn-remove', function(e) {
                 $(this).parents('.entry:first').remove();
                 e.preventDefault();
                 return false;
