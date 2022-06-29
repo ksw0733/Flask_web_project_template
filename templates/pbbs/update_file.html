@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block subtitle %}
+    <strong>수정하기</strong>
+    <span style="font-size: 0.6em;">
+        <a href="/pbbs/list/1" class="ml-5""><i class="fas fa-list-ul"></i> 목록</a>
+    </span>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <form method="post" enctype="multipart/form-data" onsubmit="return false;">
+                <table class="table table-borderless table-sm">
+                    <tr class="d-flex">
+                        <td class="col-2" style="text-align: center;">첨부파일</td>
+                        <td class="col-10">
+                            <div class="uploaded-group" id="upfiles">
+                                {% for file in files %}
+                                <div class="uploaded">{{loop.index}}
+                                    <span class="sp">{{file}}</span>
+                                    <a href="javascript:void(0);" onclick="del_file(this)" fname="{{file}}"><span class="badge badge-secondary">삭제</span></a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-2" style="text-align: center;">파일 첨부</td>
+                        <td class="col-10">
+                            <div class="control-group" id="fields">
+                                <div class="controls">
+                                    <div class="entry input-group upload-input-group">
+                                        <input class="form-control mb-2" type="file" name="fields[]" multiple="multiple">
+                                        <button class="btn btn-upload btn-success btn-add mb-2" type="button">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button class="btn btn-primary" id="send">제출</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block additional_body %}
+    <script>
+        function del_file(obj) {
+            let fname = $(obj).attr('fname');
+            let div = $(obj).parent();
+            console.log(div.text());
+            let group = $('#upfiles');
+            group.remove(div);
+            console.log(group.text());
+            console.log(fname, 'del_file badge clicked');
+        };
+        $(function () {
+            var flist = [];
+            $(document).ready(function() {
+                var controlForm = $('.controls:first');
+                $('.sp').each(function(i) {
+                    str = $(this).text();
+                    fname = str.slice(0, str.length);
+                    flist.push(fname);
+                    /* var currentEntry = $('.entry:first').find('input').val('');
+                    var newEntry = $(currentEntry.clone()).appendTo(controlForm);
+                    newEntry.find('input').val('');
+                    controlForm.find('.entry:not(:last) .btn-add')
+                        .removeClass('btn-add').addClass('btn-remove')
+                        .removeClass('btn-success').addClass('btn-danger')
+                        .html('<span class="fa fa-trash"></span>'); */
+                });
+                console.log(flist);
+            });
+            $(document).on('click', '.btn-add', function (e) {
+                e.preventDefault();
+    
+                var controlForm = $('.controls:first'),
+                    currentEntry = $(this).parents('.entry:first'),
+                    newEntry = $(currentEntry.clone()).appendTo(controlForm);
+    
+                newEntry.find('input').val('');
+                controlForm.find('.entry:not(:last) .btn-add')
+                    .removeClass('btn-add').addClass('btn-remove')
+                    .removeClass('btn-success').addClass('btn-danger')
+                    .html('<span class="fa fa-trash"></span>');
+            }).on('click', '.btn-remove', function (e) {
+                $(this).parents('.entry:first').remove();
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>  
+{% endblock %}

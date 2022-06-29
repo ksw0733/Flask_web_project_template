@@ -105,4 +105,11 @@ def register():
                 'cn':cn, 'co':co, 'ht':ht_list, 'authors':authors, 'files':files}
         page = 1
         return render_template('pbbs/view.html', menu=menu, row=row, page=page)
-        
+
+@pbbs_bp.route('/update_file', methods=['GET','POST'])
+def update_file():
+    if request.method == 'GET':
+        files = ['각난닫.pdf', 'abc.mp4', 'ckiekim-2021.stl']
+        return render_template('pbbs/update_file.html', menu=menu, files=files)
+    else:
+        pass    
