@@ -23,6 +23,7 @@
                             </div>
                         </td>
                     </tr>
+                    <input type="hidden" name="filelist" id="filelist" value="">
                     <tr class="d-flex">
                         <td class="col-2" style="text-align: center;">파일 첨부</td>
                         <td class="col-10">
@@ -40,7 +41,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <button class="btn btn-primary" id="send" onclick="send()">제출</button>
+                            <button class="btn btn-primary" id="send">제출</button>
                         </td>
                     </tr>
                 </table>
@@ -62,6 +63,8 @@
                     flist.push(fname);
                 });
                 console.log(JSON.stringify(flist));
+                $('#filelist').attr('value', JSON.stringify(flist));
+                $('form').submit();
             }).on('click', '.btn-add', function(e) {
                 e.preventDefault();
     
