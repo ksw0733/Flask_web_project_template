@@ -58,11 +58,10 @@
             $(document).on('click', '#send', function(e) {
                 let flist = [];
                 e.preventDefault();
-                $('.sp').each(function(i) {
-                    fname = $(this).text();
-                    flist.push(fname);
+                $('.sp').each(function(index) {
+                    flist.push($(this).text());
                 });
-                console.log(JSON.stringify(flist));
+                //console.log(JSON.stringify(flist));
                 $('#filelist').attr('value', JSON.stringify(flist));
                 $('form').submit();
             }).on('click', '.btn-add', function(e) {
