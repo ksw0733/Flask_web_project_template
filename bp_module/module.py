@@ -3,6 +3,8 @@ from flask import current_app, make_response, url_for, flash
 import os, random
 import urllib3, json, base64
 from datetime import datetime
+import speech_recognition as sr
+import soundfile, wave
 
 module_bp = Blueprint('module_bp', __name__)
 menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0}
@@ -37,32 +39,14 @@ def recog():
 @module_bp.route('/recog_res', methods=['POST'])
 def recog_res():
         lang_code = request.form['lang']
-        with open('static/keys/etriaikey.txt') as kf:
-            ai_key = kf.read()
         filename = 'static/img/recog.wav'
-        with open(filename, 'rb') as af:
-            audio_contents = base64.b64encode(af.read()).decode('utf8')
-        request_json = {
-            "access_key": ai_key,
-            "argument": {
-                "language_code": lang_code,
-                "audio": audio_contents
-            }
-        }
-        open_api_url = "http://aiopen.etri.re.kr:8000/WiseASR/Recognition"
-        http = urllib3.PoolManager()
-        response = http.request(
-            "POST",
-            open_api_url,
-            headers={"Content-Type": "application/json; charset=UTF-8"},
-            body=json.dumps(request_json)
-        )
-        result = json.loads(str(response.data,"utf-8"))
-        #print(result)
-        if result["result"] != 0:
-            recog_text = f'실패: {result["reason"]}'
-        else:
-            recog_text = result["return_object"]["recognized"]
+        #data, rate = soundfile.read(filename)
+        #soundfile.write(filename, data, rate)
+        recog = sr.Recognizer()
+        with sr.AudioFile(filename) as source:
+            audio = recog.record(source)
+        
+        recog_text = recog.recognize_google(audio, language=lang_code)
         audio_file = os.path.join(current_app.root_path, filename)
         mtime = int(os.stat(audio_file).st_mtime)
         return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
