@@ -4,7 +4,7 @@ import os, random
 import urllib3, json, base64
 from datetime import datetime
 import speech_recognition as sr
-import soundfile, wave
+import soundfile, librosa
 
 module_bp = Blueprint('module_bp', __name__)
 menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0}
