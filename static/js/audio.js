@@ -37,8 +37,8 @@ if (navigator.mediaDevices) {
             //mimeType : 'audio/wav'
         }
         //const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
-        const mediaRecorder = new MediaRecorder(stream, options=options);
-        //const mediaRecorder = new MediaRecorder(stream);
+        //const mediaRecorder = new MediaRecorder(stream, options=options);
+        const mediaRecorder = new MediaRecorder(stream);
 
         record.onclick = e => {
             e.preventDefault();
