@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, redirect
 from flask import current_app, make_response, url_for, flash
-import os, random
+import os, random, librosa
 import urllib3, json, base64
 from datetime import datetime
-import speech_recognition as sr
-import soundfile, librosa
+import soundfile as sf
 
 module_bp = Blueprint('module_bp', __name__)
 menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0}
@@ -27,7 +26,7 @@ content = '''
 
 @module_bp.route('/recog', methods=['GET', 'POST'])
 def recog():
-    global recog_text
+    #global recog_text
     if request.method == 'GET':
         return render_template('module/audio.html', menu=menu)
     else:
@@ -38,18 +37,40 @@ def recog():
 
 @module_bp.route('/recog_res', methods=['POST'])
 def recog_res():
-        lang_code = request.form['lang']
-        filename = 'static/img/recog.wav'
-        #data, rate = soundfile.read(filename)
-        #soundfile.write(filename, data, rate)
-        recog = sr.Recognizer()
-        with sr.AudioFile(filename) as source:
-            audio = recog.record(source)
-        
-        recog_text = recog.recognize_google(audio, language=lang_code)
-        audio_file = os.path.join(current_app.root_path, filename)
-        mtime = int(os.stat(audio_file).st_mtime)
-        return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
+    lang_code = request.form['lang']
+    filename = 'static/img/sf.wav'
+    sig, rate = librosa.load('static/img/recog.wav')
+    sig16 = librosa.resample(sig, orig_sr=rate, target_sr=16000)
+    sf.write(filename, sig16, rate, subtype='PCM_16')
+
+    with open('static/keys/etriaikey.txt') as file:
+        ai_key = file.read()
+    with open(filename, 'rb') as file:
+        audio_contents = base64.b64encode(file.read()).decode("utf8")
+    #audio_contents = base64.b64encode(sig16).decode("utf8")
+    request_json = {
+        "access_key": ai_key,
+        "argument": {
+            "language_code": lang_code,
+            "audio": audio_contents
+        }
+    }
+    http = urllib3.PoolManager()
+    response = http.request(
+        "POST",
+        "http://aiopen.etri.re.kr:8000/WiseASR/Recognition",
+        headers={"Content-Type": "application/json; charset=UTF-8"},
+        body=json.dumps(request_json)
+    )
+    result = json.loads(response.data)
+    try:
+        recog_text = result['return_object']['recognized']
+    except:
+        recog_text = '인식할 수 없습니다.'
+
+    audio_file = os.path.join(current_app.root_path, filename)
+    mtime = int(os.stat(audio_file).st_mtime)
+    return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
 
 @module_bp.route('/sub2')
 def sub2():
