@@ -16,36 +16,13 @@
                 <tr>
                     <td>언어 선택</td>
                     <td>
+                        {% for option in options %}
                         <div class="form-check-inline">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="lang" value="korean" checked>한국어
+                                <input type="radio" class="form-check-input" name="lang" value="{{option.val}}" {% if loop.first %}checked{% endif %}>{{option.disp}}
                             </label>
                         </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="lang" value="english">영어
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="lang" value="japanese">일어
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="lang" value="chinese">중국어
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="lang" value="french">프랑스어
-                            </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="lang" value="spanish">스페인어
-                            </label>
-                        </div>
+                        {% endfor %}
                     </td>
                 </tr>
                 <tr><td colspan="2"></td></tr>

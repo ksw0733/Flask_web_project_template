@@ -26,9 +26,16 @@ content = '''
 
 @module_bp.route('/recog', methods=['GET', 'POST'])
 def recog():
-    #global recog_text
     if request.method == 'GET':
-        return render_template('module/audio.html', menu=menu)
+        options = [
+            {'disp':'한국어', 'val':'korean'},
+            {'disp':'영어', 'val':'english'},
+            {'disp':'일어', 'val':'japanese'},
+            {'disp':'중국어', 'val':'chinese'},
+            {'disp':'프랑스어', 'val':'french'},
+            {'disp':'스페인어', 'val':'spanish'}
+        ]
+        return render_template('module/audio.html', menu=menu, options=options)
     else:
         file = request.files['audio_blob']
         filename = 'static/img/recog.wav'
@@ -47,7 +54,6 @@ def recog_res():
         ai_key = file.read()
     with open(filename, 'rb') as file:
         audio_contents = base64.b64encode(file.read()).decode("utf8")
-    #audio_contents = base64.b64encode(sig16).decode("utf8")
     request_json = {
         "access_key": ai_key,
         "argument": {
