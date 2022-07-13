@@ -19,7 +19,14 @@
                     <tr>
                         <td>언어 선택</td>
                         <td style="text-align: center;"> 
+                            {% for option in options %}
                             <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="lang" value="{{option.val}}" {% if loop.first %}checked{% endif %}>{{option.disp}}
+                                </label>
+                            </div>
+                            {% endfor %}
+                            <!-- <div class="form-check-inline">
                                 <label class="form-check-label">
                                     <input type="radio" class="form-check-input" name="lang" value="en" checked>영어
                                 </label>
@@ -43,7 +50,7 @@
                                 <label class="form-check-label">
                                     <input type="radio" class="form-check-input" name="lang" value="es">스페인어
                                 </label>
-                            </div>
+                            </div> -->
                         </td>
                     </tr>
                     <tr>

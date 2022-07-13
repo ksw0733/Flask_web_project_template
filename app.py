@@ -27,7 +27,14 @@ def index():
 def menu1():
     menu = {'ho':0, 'm1':1, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
     if request.method == 'GET':
-        return render_template('menu1.html', menu=menu)
+        options = [
+            {'disp':'영어', 'val':'en'},
+            {'disp':'일어', 'val':'jp'},
+            {'disp':'중국어', 'val':'cn'},
+            {'disp':'프랑스어', 'val':'fr'},
+            {'disp':'스페인어', 'val':'es'}
+        ]
+        return render_template('menu1.html', menu=menu, options=options)
     else:
         text = request.form['text']
         review = request.form['review'].replace('\n','<br>')
@@ -43,12 +50,15 @@ def menu2():
         {'id':1002, 'title':'CSS', 'content':'CSS is Cascading ...'},
         {'id':1003, 'title':'JS', 'content':'JS is Javascript ...'},
     ]
+    cmaps = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'Greys', 'Purples', 'Blues', 
+             'Greens', 'Oranges', 'Reds', 'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
+             'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
     now = datetime.now()
     np.random.seed(now.microsecond)
     X = np.random.rand(100)
     Y = np.random.rand(100)
     plt.figure()
-    plt.scatter(X, Y)
+    plt.scatter(X, Y, c=X+Y, cmap=cmaps[np.random.randint(0,len(cmaps))])
     if not os.path.exists(os.path.join(current_app.root_path, 'static/img')):
         os.makedirs(os.path.join(current_app.root_path, 'static/img'))
     img_file = os.path.join(current_app.root_path, 'static/img/menu2.png')
