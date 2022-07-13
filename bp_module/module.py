@@ -6,7 +6,7 @@ from datetime import datetime
 import soundfile as sf
 
 module_bp = Blueprint('module_bp', __name__)
-menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0}
+menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':1, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
 
 title = 'CKEditor 사용 예(표와 이미지)'
 content = '''

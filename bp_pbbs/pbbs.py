@@ -3,7 +3,7 @@ from flask import current_app, make_response, url_for, flash
 import os, json, math
 
 pbbs_bp = Blueprint('pbbs_bp', __name__)
-menu = {'ho':0, 'pb':1, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
+menu = {'ho':0, 'pb':1, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
 
 @pbbs_bp.route('/list/<int:page>')
 def list(page):

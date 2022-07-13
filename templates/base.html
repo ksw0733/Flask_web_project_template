@@ -95,6 +95,21 @@
                            href="{% if menu.cu %}#{% else %}/cluster{% endif %}">군집화/PCA</a>
                     </li>
                     <div class="dropdown-divider"></div>
+                    <div class="dropdown-divider"></div>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if menu.mp %}active{% endif %}" 
+                           data-toggle="dropdown" href="#">미디어 파이프</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/mediapipe/hand">손 탐지</a>
+                            <!-- <a class="dropdown-item" href="/mediapipe/face_detection">안면 탐지</a> -->
+                            <a class="dropdown-item" href="/mediapipe/face_mesh">안면 메시</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/mediapipe/pose">포즈</a>
+                            <a class="dropdown-item" href="/mediapipe/holistic">전체</a>
+                            <a class="dropdown-item" href="/mediapipe/selfie">셀카 분할</a>
+                        </div>
+                    </li>
+                    <div class="dropdown-divider"></div>
                 </ul>
             </div>
             <div class="col-10">

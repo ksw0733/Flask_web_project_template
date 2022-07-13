@@ -5,6 +5,7 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from bp_module.module import module_bp
 from bp_pbbs.pbbs import pbbs_bp
+from bp_mediapipe.mediapipe import mediapipe_bp
 from my_utils.sendmail import sendmail
 from datetime import datetime
 import os, joblib
@@ -17,15 +18,16 @@ warnings.filterwarnings('ignore')
 app = Flask(__name__)
 app.register_blueprint(module_bp, url_prefix='/module')
 app.register_blueprint(pbbs_bp, url_prefix='/pbbs')
+app.register_blueprint(mediapipe_bp, url_prefix='/mediapipe')
 
 @app.route('/')
 def index():
-    menu = {'ho':1, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
+    menu = {'ho':1, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
     return render_template('index.html', menu=menu)
 
 @app.route('/menu1', methods=['GET', 'POST'])
 def menu1():
-    menu = {'ho':0, 'm1':1, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
+    menu = {'ho':0, 'pb':0, 'm1':1, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
     if request.method == 'GET':
         options = [
             {'disp':'영어', 'val':'en'},
@@ -44,7 +46,7 @@ def menu1():
 
 @app.route('/menu2')
 def menu2():
-    menu = {'ho':0, 'm1':0, 'm2':1, 'm3':0, 'cf':0, 'cu':0, 'ma':0}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':1, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
     items = [
         {'id':1001, 'title':'HTML', 'content':'HTML is HyperText ...'},
         {'id':1002, 'title':'CSS', 'content':'CSS is Cascading ...'},
@@ -70,7 +72,7 @@ def menu2():
 
 @app.route('/classify', methods=['GET', 'POST'])
 def classify():
-    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':1, 'cu':0, 'ma':0}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':1, 'cu':0, 'ma':0, 'mp':0}
     if request.method == 'GET':
         return render_template('classify.html', menu=menu)
     else:
@@ -102,7 +104,7 @@ def classify():
 
 @app.route('/cluster', methods=['GET', 'POST'])
 def cluster():
-    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':1, 'ma':0}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':1, 'ma':0, 'mp':0}
     if request.method == 'GET':
         return render_template('cluster.html', menu=menu)
     else:
@@ -163,7 +165,7 @@ def cluster():
 
 @app.route('/mail', methods=['GET', 'POST'])
 def mail():
-    menu = {'ho':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':1}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':1, 'mp':0}
     if request.method == 'GET':
         return render_template('mail.html', menu=menu)
     else:
