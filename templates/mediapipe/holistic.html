@@ -31,7 +31,7 @@
 
             // Only overwrite existing pixels.
             canvasCtx.globalCompositeOperation = 'source-in';
-            canvasCtx.fillStyle = '#00FF00';
+            canvasCtx.fillStyle = '#00DD00';
             canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
 
             // Only overwrite missing pixels.
@@ -44,7 +44,7 @@
             drawLandmarks(canvasCtx, results.poseLandmarks,
                             {color: '#FF0000', lineWidth: 2});
             drawConnectors(canvasCtx, results.faceLandmarks, FACEMESH_TESSELATION,
-                            {color: '#C0C070', lineWidth: 1});
+                            {color: '#D0D0D0', lineWidth: 1});
             drawConnectors(canvasCtx, results.leftHandLandmarks, HAND_CONNECTIONS,
                             {color: '#909000', lineWidth: 4});
             drawLandmarks(canvasCtx, results.leftHandLandmarks,
