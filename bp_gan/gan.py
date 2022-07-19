@@ -14,10 +14,16 @@ def anime():
         f_src = request.files['face']
         file_src = os.path.join(current_app.root_path, 'static/upload/') + f_src.filename
         f_src.save(file_src)
-        
-        animeGAN(f_src.filename, os.path.join(current_app.root_path, 'static/upload/'), version)
+        return render_template('gan/spinner.html', menu=menu, 
+                                src=f_src.filename, version=version)
 
-        file_dst = os.path.join(current_app.root_path, 'static/upload/') + "animated_image.jpg"
-        mtime = int(os.stat(file_dst).st_mtime)
-        return render_template('gan/anime_res.html', menu=menu, src=f_src.filename,
-                                version=version, mtime=mtime)
+@gan_bp.route('/anime_res', methods=['POST'])
+def anime_res():
+    version = request.form['version']
+    src = request.form['src']
+    animeGAN(src, os.path.join(current_app.root_path, 'static/upload/'), version)
+
+    file_dst = os.path.join(current_app.root_path, 'static/upload/') + "animated_image.jpg"
+    mtime = int(os.stat(file_dst).st_mtime)
+    return render_template('gan/anime_res.html', menu=menu, src=src,
+                            version=version, mtime=mtime)

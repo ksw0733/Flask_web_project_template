@@ -21,9 +21,8 @@ def animeGAN(src_fname, dst_dir, version):
     driver.switch_to.frame('iFrameResizer0')
     # 이미지 업로드
     upload = driver.find_element(By.CSS_SELECTOR, 'input.hidden-upload.hidden')
-    upload.send_keys('C:\\Workspace\\02.FirstProject\\static\\upload\\'+src_fname)
-    tmp = os.path.join(dst_dir, src_fname)
-    print('='*80, '\n', tmp, '\n')
+    fname = os.path.join(dst_dir, src_fname).replace('/', '\\')
+    upload.send_keys(fname)
     time.sleep(1)
     # 버전 선택
     if version == '1':

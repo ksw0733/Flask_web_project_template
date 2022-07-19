@@ -15,7 +15,11 @@
             <table class="table">
                 <tr class="d-flex">
                     <td class="col-5">Version</td>
-                    <td class="col-7"><strong>{{version}}</strong></td>
+                    <td class="col-7">
+                        {% if version=='1' %}버전 1 (🔺stylization, 🔻robustness)
+                        {% else %}버전 2 (🔺robustness, 🔻stylization)
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr class="d-flex">
                     <td class="col-5">원본</td>
