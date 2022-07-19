@@ -6,6 +6,7 @@ from sklearn.cluster import KMeans
 from bp_module.module import module_bp
 from bp_pbbs.pbbs import pbbs_bp
 from bp_mediapipe.mediapipe import mediapipe_bp
+from bp_gan.gan import gan_bp
 from my_utils.sendmail import sendmail
 from datetime import datetime
 import os, joblib
@@ -19,6 +20,7 @@ app = Flask(__name__)
 app.register_blueprint(module_bp, url_prefix='/module')
 app.register_blueprint(pbbs_bp, url_prefix='/pbbs')
 app.register_blueprint(mediapipe_bp, url_prefix='/mediapipe')
+app.register_blueprint(gan_bp, url_prefix='/gan')
 
 @app.route('/')
 def index():

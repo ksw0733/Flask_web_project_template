@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block additional_head %}
+    <style>
+        td { text-align: center; }
+        /* Make the image fully responsive */
+        td img { width: 100%; }
+    </style>
+{% endblock %}
+{% block subtitle %}
+    <strong>Animation Image</strong><small> - AnimeGANv2 참조</small>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <tr class="d-flex">
+                    <td class="col-5">Version</td>
+                    <td class="col-7"><strong>{{version}}</strong></td>
+                </tr>
+                <tr class="d-flex">
+                    <td class="col-5">원본</td>
+                    <td class="col-7">Animation image</td>
+                </tr>
+                <tr class="d-flex">
+                    <td class="col-5">
+                        <img src="{{url_for('static', filename='upload/'+src, q=mtime)}}"
+                                width="100%" alt="원본 이미지">
+                    </td>
+                    <td class="col-7">
+                        <img src="{{url_for('static', filename='upload/animated_image.jpg', q=mtime)}}"
+                                width="100%" alt="애니메이션 이미지">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button class="btn btn-primary"
+                                onclick="location.href='/gan/anime'">재실행</button>
+                    </td>
+                </tr>
+            </table>		
+        </div>
+    </div>
+{% endblock %}

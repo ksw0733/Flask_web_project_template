@@ -1,9 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import urllib.request
-import time
+import os, time
 
-def animeGAN(src_fname, version):
+def animeGAN(src_fname, dst_dir, version):
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')   # 화면없이 실행
     options.add_argument('--no-sandbox')
@@ -22,7 +22,12 @@ def animeGAN(src_fname, version):
     # 이미지 업로드
     upload = driver.find_element(By.CSS_SELECTOR, 'input.hidden-upload.hidden')
     upload.send_keys('C:\\Workspace\\02.FirstProject\\static\\upload\\'+src_fname)
+    tmp = os.path.join(dst_dir, src_fname)
+    print('='*80, '\n', tmp, '\n')
     time.sleep(1)
+    # 버전 선택
+    if version == '1':
+        driver.find_element(By.CSS_SELECTOR, 'input.gr-check-radio.gr-radio').click()
 
     # 제출하기 버튼 클릭
     button = driver.find_element(By.CSS_SELECTOR, 'button.gr-button.gr-button-lg.gr-button-primary.self-start')
@@ -31,6 +36,7 @@ def animeGAN(src_fname, version):
 
     ani_img = driver.find_element(By.XPATH, '//*[@id="2"]/img')
     img_url = ani_img.get_attribute('src')
-    urllib.request.urlretrieve(img_url, "animated_image.jpg")
+    dst_file = os.path.join(dst_dir, "animated_image.jpg")
+    urllib.request.urlretrieve(img_url, dst_file)
 
     driver.close()
