@@ -18,7 +18,7 @@ function tableData() {
     td2.append(input);
     input = document.createElement("input");
     input.classList.add("btn", "btn-secondary");
-    input.setAttribute('type', 'reset');
+    input.setAttribute('type', 'reset');    
     input.setAttribute('value', '취소');
     td2.append(input);
 }

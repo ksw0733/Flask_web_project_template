@@ -8,7 +8,7 @@ const analyser = audioCtx.createAnalyser();
 const video = document.createElement('video');
 
 function tableData() {
-    video.setAttribute('controls', '');
+    video.setAttribute('controls', '');   // controls는 동영상에 소리조절, 일시정지등을 해줄수 있게 하는 컨트롤러 제공
     td1.append(video);
 
     let input = document.createElement("input");
