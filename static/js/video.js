@@ -6,6 +6,7 @@ const td2 = document.getElementById("td2");
 const audioCtx = new(window.AudioContext || window.webkitAudioContext)(); // 오디오 컨텍스트 정의
 const analyser = audioCtx.createAnalyser();
 const video = document.createElement('video');
+const webcam = document.getElementById('webcam');
 
 function tableData() {
     video.setAttribute('controls', '');
@@ -27,11 +28,12 @@ console.log(navigator.mediaDevices);
 if (navigator.mediaDevices) {
     console.log('getUserMedia supported.');
 
-    const constraints = { video:true, audio:true };
+    const constraints = { video:true, audio:false };
     let chunks = [];
 
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         const mediaRecorder = new MediaRecorder(stream);
+        webcam.srcObject = stream;
 
         record.onclick = e => {
             e.preventDefault();
@@ -46,6 +48,8 @@ if (navigator.mediaDevices) {
 
         stop.onclick = e => {
             e.preventDefault();
+            td1.removeChild(webcam);
+
             tableData();
             mediaRecorder.stop();
             console.log("recorder stopped", mediaRecorder.state);
