@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block additional_head %}
+    <style>
+        td { text-align: center; }
+    </style>
+{% endblock %}
+{% block subtitle %}
+    <strong>동영상 녹화</strong>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <form action="/module/video" method="post">
+            <table class="table table-borderless">
+                <tr>
+                    <td>사용법</td>
+                    <td>
+                        시작할 때 녹화 버튼을 누르고, 마칠때 정지 버튼을 누르세요.
+                    </td>
+                </tr>
+                <tr><td colspan="2"></td></tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="button_box">
+                            <button type="button" class="btn btn-danger mr-2" id="record">녹화</button>
+                            <span id="cam" class=""></span>
+                            <button type="button" class="btn btn-dark disabled mr-2" id="stop">정지</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="td1"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="td2"></td>
+                </tr>
+            </table>
+            </form>
+        </div>
+        <div class="col-1"></div>
+        <br>
+    </div>
+{% endblock %}
+{% block additional_body %}
+    <script src="{{url_for('static', filename='js/video.js', q=2)}}"></script> 
+{% endblock %}

@@ -78,6 +78,16 @@ def recog_res():
     mtime = int(os.stat(audio_file).st_mtime)
     return render_template('module/audio_res.html', menu=menu, text=recog_text, mtime=mtime)
 
+@module_bp.route('/video', methods=['GET', 'POST'])
+def video():
+    if request.method == 'GET':
+        return render_template('module/video.html', menu=menu)
+    else:
+        file = request.files['video_blob']
+        filename = 'static/img/video.mp4'
+        file.save(filename)
+        return '0'
+
 @module_bp.route('/sub2')
 def sub2():
     return redirect('/')
