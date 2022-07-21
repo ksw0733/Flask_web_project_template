@@ -3,10 +3,8 @@ const stop = document.getElementById("stop");
 const cam = document.getElementById("cam");
 const td1 = document.getElementById("td1");
 const td2 = document.getElementById("td2");
-const audioCtx = new(window.AudioContext || window.webkitAudioContext)(); // 오디오 컨텍스트 정의
-const analyser = audioCtx.createAnalyser();
-const video = document.createElement('video');
 const webcam = document.getElementById('webcam');
+const video = document.createElement('video');
 
 function tableData() {
     video.setAttribute('controls', '');
