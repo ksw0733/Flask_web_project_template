@@ -3,8 +3,6 @@ const stop = document.getElementById("stop");
 const mic = document.getElementById("mic");
 const td1 = document.getElementById("td1");
 const td2 = document.getElementById("td2");
-const audioCtx = new(window.AudioContext || window.webkitAudioContext)(); // 오디오 컨텍스트 정의
-const analyser = audioCtx.createAnalyser();
 const audio = document.createElement('audio');
 
 function tableData() {
@@ -31,13 +29,6 @@ if (navigator.mediaDevices) {
     let chunks = [];
 
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-        let options = {
-            audioBitsPerSecond : 16000,
-            //mimeType : 'audio/ogg'
-            //mimeType : 'audio/wav'
-        }
-        //const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
-        //const mediaRecorder = new MediaRecorder(stream, options=options);
         const mediaRecorder = new MediaRecorder(stream);
 
         record.onclick = e => {
@@ -62,9 +53,6 @@ if (navigator.mediaDevices) {
             console.log("data available after MediaRecorder.stop() called.");
             const blob = new Blob(chunks, {
                 type: 'audio/wav codecs=opus'
-                //type: 'audio/wav codecs=MS_PCM'
-                //type: 'audio/wav; codecs=G.711'
-                //type: 'audio/ogg codecs=opus'
             });
 
             // 오디오 데이터 ajax

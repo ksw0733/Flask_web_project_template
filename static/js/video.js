@@ -3,8 +3,7 @@ const stop = document.getElementById("stop");
 const cam = document.getElementById("cam");
 const td1 = document.getElementById("td1");
 const td2 = document.getElementById("td2");
-const audioCtx = new(window.AudioContext || window.webkitAudioContext)(); // 오디오 컨텍스트 정의
-const analyser = audioCtx.createAnalyser();
+const webcam = document.getElementById('webcam');
 const video = document.createElement('video');
 
 function tableData() {
@@ -27,11 +26,12 @@ console.log(navigator.mediaDevices);
 if (navigator.mediaDevices) {
     console.log('getUserMedia supported.');
 
-    const constraints = { video:true, audio:true };
+    const constraints = { video:true, audio:false };
     let chunks = [];
 
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         const mediaRecorder = new MediaRecorder(stream);
+        webcam.srcObject = stream;
 
         record.onclick = e => {
             e.preventDefault();
@@ -46,6 +46,8 @@ if (navigator.mediaDevices) {
 
         stop.onclick = e => {
             e.preventDefault();
+            td1.removeChild(webcam);
+
             tableData();
             mediaRecorder.stop();
             console.log("recorder stopped", mediaRecorder.state);
