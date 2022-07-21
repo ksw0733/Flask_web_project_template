@@ -18,12 +18,12 @@
                     <td class="col-4">
                         <div class="form-check-inline">
                             <label class="form-check-label mr-3">
-                                <input type="radio" class="form-check-input" name="voice" id="voice0" value="0" checked> <i class="fas fa-microphone-slash"></i>
+                                <input type="radio" class="form-check-input" name="voice" id="voice0" value="0" disabled> <i class="fas fa-microphone-slash"></i>
                             </label>
                         </div>
                         <div class="form-check-inline">
                             <label class="form-check-label8">
-                                <input type="radio" class="form-check-input" name="voice" id="voice1" value="1" disabled> <i class="fas fa-microphone"></i>
+                                <input type="radio" class="form-check-input" name="voice" id="voice1" value="1" checked> <i class="fas fa-microphone"></i>
                             </label>
                         </div>
                     </td>
@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" id="td1">
-                        <video autoplay id="webcam" src=""></video>
+                        <video autoplay id="webcam" src="" muted></video>
                     </td>
                 </tr>
                 <tr>
@@ -54,5 +54,5 @@
     </div>
 {% endblock %}
 {% block additional_body %}
-    <script src="{{url_for('static', filename='js/video.js', q=17)}}"></script> 
+    <script src="{{url_for('static', filename='js/video.js', q=18)}}"></script> 
 {% endblock %}
