@@ -5,6 +5,7 @@ const td1 = document.getElementById("td1");
 const td2 = document.getElementById("td2");
 const webcam = document.getElementById('webcam');
 const video = document.createElement('video');
+const constraints = { video:true, audio:false };
 
 function tableData() {
     video.setAttribute('controls', '');
@@ -25,8 +26,6 @@ function tableData() {
 console.log(navigator.mediaDevices);
 if (navigator.mediaDevices) {
     console.log('getUserMedia supported.');
-
-    const constraints = { video:true, audio:false };
     let chunks = [];
 
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
@@ -88,3 +87,11 @@ if (navigator.mediaDevices) {
         console.log('The following error occurred: ' + err);
     })
 }
+
+$("input:radio[name=voice]").click(function() {
+    if ($("input:radio[name=voice]:checked").val() == '0') 
+        constraints.audio = false;
+    else
+        constraints.audio = true;
+    //console.log(constraints);
+});
