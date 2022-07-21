@@ -16,8 +16,7 @@
                 <tr>
                     <td>사용법</td>
                     <td>
-                        시작할 때 녹화 버튼을 누르고, 마칠때 정지 버튼을 누르세요.<br>
-                        녹화시작전에 다른곳에서 카메라를 사용하고 있다면 카메라 사용을 종료해주세요
+                        녹음은 안되고, web-cam을 쓰는 다른 프로그램은 종료하세요.
                     </td>
                 </tr>
                 <tr><td colspan="2"></td></tr>
@@ -26,12 +25,14 @@
                         <div class="button_box">
                             <button type="button" class="btn btn-danger mr-2" id="record">녹화</button>
                             <span id="cam" class=""></span>
-                            <button type="button" class="btn btn-dark disabled mr-2" id="stop">정지</button>
+                            <button type="button" class="btn btn-dark disabled" id="stop">정지</button>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" id="td1"></td>
+                    <td colspan="2" id="td1">
+                        <video autoplay id="webcam" src="" style="background-color: black;"></video>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2" id="td2"></td>
@@ -44,5 +45,5 @@
     </div>
 {% endblock %}
 {% block additional_body %}
-    <script src="{{url_for('static', filename='js/video.js', q=2)}}"></script> 
+    <script src="{{url_for('static', filename='js/video.js', q=14)}}"></script> 
 {% endblock %}
