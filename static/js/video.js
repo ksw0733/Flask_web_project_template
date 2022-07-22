@@ -69,10 +69,10 @@ if (navigator.mediaDevices) {
                 contentType: false,
                 processData: false,
                 success: function(result) {
-                    console.log("success");
+                    console.log("ajax success");
                 },
                 error: function(result) {
-                    alert("failed");
+                    alert("ajax error");
                 }
             })
             const videoURL = URL.createObjectURL(blob);
