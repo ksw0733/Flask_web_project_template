@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect
-from flask import current_app, make_response, url_for, Response
+from flask import current_app, make_response, url_for, flash
 import os, random, librosa
 import cv2, time
 import urllib3, json, base64
@@ -88,6 +88,11 @@ def video():
         filename = 'static/img/video.mp4'
         file.save(filename)
         return '0'
+
+@module_bp.route('/video_proc', methods=['POST'])
+def video_proc():
+    flash('녹화된 동영상을 이 부분에서 처리해주면 됩니다.')
+    return redirect('/module/video')
 
 @module_bp.route('/sub2')
 def sub2():
