@@ -5,7 +5,7 @@ const td1 = document.getElementById("td1");
 const td2 = document.getElementById("td2");
 const webcam = document.getElementById('webcam');
 const video = document.createElement('video');
-const constraints = { video:true, audio:true };
+var constraints = { video:true, audio:true };
 
 function tableData() {
     video.setAttribute('controls', '');
