@@ -11,17 +11,26 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10">
-            <form action="/module/video" method="post">
+            <form action="/module/video_proc" method="post">
             <table class="table table-borderless">
-                <tr>
-                    <td>사용법</td>
-                    <td>
-                        녹음은 안되고, web-cam을 쓰는 다른 프로그램은 종료하세요.
+                <tr class="d-flex">
+                    <td class="col-4">음성 녹음</td>
+                    <td class="col-4">
+                        <div class="form-check-inline">
+                            <label class="form-check-label mr-3">
+                                <input type="radio" class="form-check-input" name="voice" id="voice0" value="0" disabled> <i class="fas fa-microphone-slash"></i>
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label8">
+                                <input type="radio" class="form-check-input" name="voice" id="voice1" value="1" checked> <i class="fas fa-microphone"></i>
+                            </label>
+                        </div>
                     </td>
+                    <td class="col-4"></td>
                 </tr>
-                <tr><td colspan="2"></td></tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <div class="button_box">
                             <button type="button" class="btn btn-danger mr-2" id="record">녹화</button>
                             <span id="cam" class=""></span>
@@ -30,12 +39,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" id="td1">
-                        <video autoplay id="webcam" src="" style="background-color: black;"></video>
+                    <td colspan="3" id="td1">
+                        <video autoplay id="webcam" src="" muted></video>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" id="td2"></td>
+                    <td colspan="3" id="td2"></td>
                 </tr>
             </table>
             </form>
@@ -45,5 +54,5 @@
     </div>
 {% endblock %}
 {% block additional_body %}
-    <script src="{{url_for('static', filename='js/video.js', q=14)}}"></script> 
+    <script src="{{url_for('static', filename='js/video.js', q=21)}}"></script> 
 {% endblock %}

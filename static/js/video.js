@@ -5,6 +5,7 @@ const td1 = document.getElementById("td1");
 const td2 = document.getElementById("td2");
 const webcam = document.getElementById('webcam');
 const video = document.createElement('video');
+var constraints = { video:true, audio:true };
 
 function tableData() {
     video.setAttribute('controls', '');   // controls는 동영상에 소리조절, 일시정지등을 해줄수 있게 하는 컨트롤러 제공
@@ -25,8 +26,6 @@ function tableData() {
 console.log(navigator.mediaDevices);
 if (navigator.mediaDevices) {
     console.log('getUserMedia supported.');
-
-    const constraints = { video:true, audio:false };
     let chunks = [];
 
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
@@ -70,10 +69,10 @@ if (navigator.mediaDevices) {
                 contentType: false,
                 processData: false,
                 success: function(result) {
-                    console.log("success");
+                    console.log("ajax success");
                 },
                 error: function(result) {
-                    alert("failed");
+                    alert("ajax error");
                 }
             })
             const videoURL = URL.createObjectURL(blob);
@@ -88,3 +87,11 @@ if (navigator.mediaDevices) {
         console.log('The following error occurred: ' + err);
     })
 }
+
+$("input:radio[name=voice]").click(function() {
+    if ($("input:radio[name=voice]:checked").val() == '0') 
+        constraints.audio = false;
+    else
+        constraints.audio = true;
+    //console.log(constraints);
+});

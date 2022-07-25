@@ -46,7 +46,7 @@ def gen_frames():
     height = camera.get(cv2.CAP_PROP_FRAME_HEIGHT)   
     fourcc = cv2.VideoWriter_fourcc(*"XVID")
     fps = 30
-    out = cv2.VideoWriter('static/img/video.avi', fourcc, fps, (int(width), int(height)))
+    out = cv2.VideoWriter('static/img/face_video.avi', fourcc, fps, (int(width), int(height)))
    
     time.sleep(0.2)
     lastTime = time.time()*1000.0

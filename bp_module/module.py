@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect
-from flask import current_app, make_response, url_for, Response
+from flask import current_app, make_response, url_for, flash
 import os, random, librosa
 import cv2, time
 import urllib3, json, base64
@@ -85,9 +85,33 @@ def video():
         return render_template('module/video.html', menu=menu)
     else:
         file = request.files['video_blob']
-        filename = 'static/img/video.mp4'
+        filename = 'static/img/video.avi'
         file.save(filename)
         return '0'
+
+@module_bp.route('/video_proc', methods=['POST'])
+def video_proc():
+    flash('녹화된 동영상을 이 부분에서 처리해주면 됩니다.')
+    raw_file = 'static/img/video.avi'
+    cap = cv2.VideoCapture(raw_file)
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)   # 또는 cap.get(3)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT) # 또는 cap.get(4)
+    fps = cap.get(cv2.CAP_PROP_FPS)             # 또는 cap.get(5)
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')    # 코덱 정의, *'mp4v' == 'm', 'p', '4', 'v', 또는 *'DIVX'
+    out = cv2.VideoWriter('static/img/video.mp4', fourcc, fps, (int(width), int(height))) # VideoWriter 객체
+    while True:
+        ret, img = cap.read()
+        if ret:
+            out.write(img)
+            cv2.waitKey(33)             # 30 fps
+        else:
+            break
+
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
+
+    return redirect('/module/video')
 
 @module_bp.route('/sub2')
 def sub2():
