@@ -39,15 +39,15 @@ def recog():
         return render_template('module/audio.html', menu=menu, options=options)
     else:
         file = request.files['audio_blob']
-        filename = 'static/img/recog.wav'
+        filename = 'static/img/raw_audio.wav'
         file.save(filename)
         return '0'
 
-@module_bp.route('/recog_res', methods=['POST'])
-def recog_res():
+@module_bp.route('/recog_proc', methods=['POST'])
+def recog_proc():
     lang_code = request.form['lang']
     filename = 'static/img/sf.wav'
-    sig, rate = librosa.load('static/img/recog.wav')
+    sig, rate = librosa.load('static/img/raw_audio.wav')
     sig16 = librosa.resample(sig, orig_sr=rate, target_sr=16000)
     sf.write(filename, sig16, rate, subtype='PCM_16')
 
@@ -85,14 +85,14 @@ def video():
         return render_template('module/video.html', menu=menu)
     else:
         file = request.files['video_blob']
-        filename = 'static/img/video.avi'
+        filename = 'static/img/raw_video.avi'
         file.save(filename)
         return '0'
 
 @module_bp.route('/video_proc', methods=['POST'])
 def video_proc():
     flash('녹화된 동영상을 이 부분에서 처리해주면 됩니다.')
-    raw_file = 'static/img/video.avi'
+    raw_file = 'static/img/raw_video.avi'
     cap = cv2.VideoCapture(raw_file)
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)   # 또는 cap.get(3)
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT) # 또는 cap.get(4)
@@ -102,8 +102,8 @@ def video_proc():
     while True:
         ret, img = cap.read()
         if ret:
-            out.write(img)
-            cv2.waitKey(33)             # 30 fps
+            out.write(cv2.flip(img, 1))     # 좌우 반전 시켜서 원 위치로 환원
+            cv2.waitKey(33)                 # 30 fps
         else:
             break
 
