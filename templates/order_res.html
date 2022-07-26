@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block additional_head %}
     <style>
-        th, td { text-align: center; vertical-align: middle;}
+        th, td { text-align: center; vertical-align: middle; }
     </style>
 {% endblock %}
 {% block subtitle %}
@@ -19,8 +19,9 @@
                 {% for order in finals %}
                 <tr class="d-flex">
                     <td class="col-6">{{loop.index}}</td>
-                    <td class="col-6"><img src="{{url_for('static', filename='img/metro'+order|string()+'.svg')}}"
-                        width="32" alt="{{order}} 조"></td>
+                    <td class="col-6">
+                        <img src="{{url_for('static', filename='digits/metro'+order|string()+'.svg')}}" width="28" alt="{{order}} 조">
+                    </td>
                 </tr>
                 {% endfor %}
                 <tr>
