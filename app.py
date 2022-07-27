@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from flask import current_app
+from flask import current_app, flash
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
@@ -9,7 +9,7 @@ from bp_mediapipe.mediapipe import mediapipe_bp
 from bp_gan.gan import gan_bp
 from my_utils.sendmail import sendmail
 from datetime import datetime
-import os, joblib
+import os, joblib, random
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
@@ -24,12 +24,12 @@ app.register_blueprint(gan_bp, url_prefix='/gan')
 
 @app.route('/')
 def index():
-    menu = {'ho':1, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
+    menu = {'ho':1, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0, 'gn':0, 'or':0}
     return render_template('index.html', menu=menu)
 
 @app.route('/menu1', methods=['GET', 'POST'])
 def menu1():
-    menu = {'ho':0, 'pb':0, 'm1':1, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
+    menu = {'ho':0, 'pb':0, 'm1':1, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0, 'gn':0, 'or':0}
     if request.method == 'GET':
         options = [
             {'disp':'영어', 'val':'en'},
@@ -48,7 +48,7 @@ def menu1():
 
 @app.route('/menu2')
 def menu2():
-    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':1, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':1, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0, 'gn':0, 'or':0}
     items = [
         {'id':1001, 'title':'HTML', 'content':'HTML is HyperText ...'},
         {'id':1002, 'title':'CSS', 'content':'CSS is Cascading ...'},
@@ -74,7 +74,7 @@ def menu2():
 
 @app.route('/classify', methods=['GET', 'POST'])
 def classify():
-    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':1, 'cu':0, 'ma':0, 'mp':0}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':1, 'cu':0, 'ma':0, 'mp':0, 'gn':0, 'or':0}
     if request.method == 'GET':
         return render_template('classify.html', menu=menu)
     else:
@@ -106,7 +106,7 @@ def classify():
 
 @app.route('/cluster', methods=['GET', 'POST'])
 def cluster():
-    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':1, 'ma':0, 'mp':0}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':1, 'ma':0, 'mp':0, 'gn':0, 'or':0}
     if request.method == 'GET':
         return render_template('cluster.html', menu=menu)
     else:
@@ -167,7 +167,7 @@ def cluster():
 
 @app.route('/mail', methods=['GET', 'POST'])
 def mail():
-    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':1, 'mp':0}
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':1, 'mp':0, 'gn':0, 'or':0}
     if request.method == 'GET':
         return render_template('mail.html', menu=menu)
     else:
@@ -180,6 +180,21 @@ def mail():
             file.save(file_up)
         sendmail(subject, addr, content, files)
         return redirect('/')
+
+@app.route('/order', methods=['GET', 'POST'])
+def order():
+    menu = {'ho':0, 'pb':0, 'm1':0, 'm2':0, 'm3':0, 'cf':0, 'cu':0, 'ma':0, 'mp':0, 'gn':0, 'or':1}
+    if request.method == 'GET':
+        return render_template('order.html', menu=menu)
+    else:
+        num = int(request.form['number'])
+        if num <= 1 or num >= 10:
+            flash('2에서 9사이의 숫자를 입력하세요.')
+            return redirect('/order')
+        teams = [i for i in range(1, num+1)]
+        random.seed(datetime.now().microsecond)
+        finals = random.sample(teams, num)
+        return render_template('order_res.html', menu=menu, finals=finals)
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
