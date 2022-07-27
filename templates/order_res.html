@@ -11,6 +11,7 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
+            <div id="show"></div>
             <table class="table">
                 <tr class="d-flex">
                     <th class="col-6">발표 순서</td>
@@ -34,4 +35,34 @@
         </div>
         <div class="col-1"></div>
     </div>
+{% endblock %}
+{% block additional_body %}
+    <script>
+        var count = 3;
+        const show = document.getElementById('show');
+        function disp(num) {
+            let img = document.createElement('img');
+            img.setAttribute('src', 'static/digits/metro'+num+'.svg');
+            img.setAttribute('width', '600');
+            img.setAttribute('id', 'second');
+            img.setAttribute('class', 'm-5');
+            show.append(img);
+        }
+        function hide() {
+            let sec = document.getElementById('second');
+            show.removeChild(sec);
+        }
+        function countDown() {
+            disp(count--);
+            let interval = setInterval(() => {
+                hide();
+                if (count != 0) 
+                    disp(count--);
+            }, 1000);
+            setTimeout(() => {
+                clearInterval(interval);
+            }, 3000);
+        }
+        window.onload = countDown;
+    </script>
 {% endblock %}
